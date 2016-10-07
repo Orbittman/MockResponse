@@ -24,17 +24,4 @@ namespace MockResponse
             host.Run();
         }
     }
-
-    public class ApiCOntroller{
-        [HttpGet("responses")]
-        public object GetResources(){
-            return new {Name="Something"};
-        }
-
-        [HttpPost("responses")]
-        public object PostResponses(ResponseModel model)
-        {
-            return new {ContentType=model.ContentType};
-        }
-    }
 }

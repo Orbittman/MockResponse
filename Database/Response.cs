@@ -1,8 +1,11 @@
 // using System.Collections.Generic;
 
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace MockResponse
 {
     public class Response {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]        
         public int ResponseId { get; set; }
 
         public string ContentType { get; set; }
@@ -15,9 +18,7 @@ namespace MockResponse
 
         public string CacheControl { get; set; } 
 
-        public int HttpStatusCode { get; set; } 
-
-        // public List<string> Cookies { get; set; }
+        public int StatusCode { get; set; } 
 
         public string Content { get; set; }
     }

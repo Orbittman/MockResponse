@@ -20,7 +20,8 @@
           "type": "build" 
         },
         "Microsoft.AspNetCore.Mvc": "1.0.0",
-        "Microsoft.AspNetCore.Mvc.Formatters.Json": "1.0.0"
+        "Microsoft.AspNetCore.Mvc.Formatters.Json": "1.0.0",
+        "AutoMapper.Extensions.Microsoft.DependencyInjection": "1.1.0"
       },
       "imports": "dnxcore50"
     }

@@ -28,9 +28,9 @@ namespace MockResponse.Migrations
 
                     b.Property<string>("ContentType");
 
-                    b.Property<int>("HttpStatusCode");
-
                     b.Property<string>("Server");
+
+                    b.Property<int>("StatusCode");
 
                     b.Property<string>("Vary");
 

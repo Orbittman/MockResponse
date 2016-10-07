@@ -2,58 +2,47 @@ using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-
-using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using System.Threading.Tasks;
+
+using AutoMapper;
 
 namespace MockResponse
 {
     public class Startup
     {
-        private Response _defaultResponse = new Response{ ContentType="application/text", HttpStatusCode = 400, Content = "This is the default response" };
+        private Response _defaultResponse = new Response{ ContentType="application/text", StatusCode = 400, Content = "This is the default response" };
 
         public void ConfigureServices(IServiceCollection services){
-             services.AddMvc();
+             services.AddMvc(options => 
+             {
+                 options.RespectBrowserAcceptHeader = true;
+             });
+
+            Mapper.Initialize(c => {});
+            services.AddSingleton(Mapper.Configuration);
+            services.AddScoped<IMapper>(sp => new Mapper(sp.GetRequiredService<IConfigurationProvider>(), sp.GetService));
+            services.AddAutoMapper();
         }
 
         public void Configure(IApplicationBuilder app)
         {
             app.UseMvc();
-            //  var routeHandler = new RouteHandler(context =>
-            // {
-            //     return null;
-            // });
+            app.Run(ReturnConfiguredResponse);           
+        }
 
-            // var routeBuilder = new RouteBuilder(app, routeHandler);
-            // routeBuilder.MapPost("api/response", AddResponse);
-
-            // var routes = routeBuilder.Build();
-            // app.UseRouter(routes);
-            app.Run(context => context.Response.WriteAsync(context.Request.Path));
-            //var responses = new Dictionary<string, Response>{{"/jhlahlkj/dsfsdf/dsfsdfs?gfgfg=ttttt", new Response{ ContentType="application/json", HttpStatusCode = 200, Content = "{\"bob\" : \"This is a found response\"}"}}};
-            // app.Run(context =>
-            // {
-            //     var requestKey = $"{context.Request.Path}{context.Request.QueryString}";
-            //     var response = responses.ContainsKey(requestKey) ? responses[requestKey] : _defaultResponse;
-
-            //     context.Response.StatusCode = response.HttpStatusCode;
-            //     context.Response.ContentType = response.ContentType;
-
-            //     return context.Response.WriteAsync($"{response.Content}");
-            // });
+        private Task ReturnConfiguredResponse(HttpContext context) {
+            return context.Response.WriteAsync("Found key");
         }
 
         private Task AddResponse(HttpContext context) {
             using(var db = new SqlLiteContext())
             {
                 try{
-                db.Responses.Add(new Response{ContentType = "application/json", HttpStatusCode=200});
+                db.Responses.Add(new Response{ContentType = "application/json", StatusCode=200});
                 db.SaveChanges();
                 }catch(Exception ex){
-                    var a = string.Empty;
+                    var a = ex.Message;
                 }
             }
 
