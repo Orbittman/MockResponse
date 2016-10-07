@@ -19,7 +19,8 @@
           "version": "1.0.0-preview2-final",
           "type": "build" 
         },
-        "Microsoft.AspNetCore.Routing": "1.0.0"
+        "Microsoft.AspNetCore.Mvc": "1.0.0",
+        "Microsoft.AspNetCore.Mvc.Formatters.Json": "1.0.0"
       },
       "imports": "dnxcore50"
     }
