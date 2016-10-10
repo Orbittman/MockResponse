@@ -13,13 +13,13 @@ public class ApiController : Controller {
         [HttpGet("responses")]
         public object GetResources(){
             using(var db = new SqlLiteContext()){
-                var responses = db.Responses.Select(d => new { d.StatusCode, d.ContentType }).ToArray();
+                var responses = db.Responses.Select(d => new ResponseModel { StatusCode = d.StatusCode, ContentType = d.ContentType }).ToArray();
                 return Json(responses);
             }
         }
 
         [HttpPost("responses")]
-        public object PostResponses(ResponseModel model)
+        public object PostResponses([FromBody]ResponseModel model)
         {
             using(var db = new SqlLiteContext()){
                 var responses = db.Responses.Add(new Response{

@@ -18,6 +18,7 @@ namespace MockResponse.Migrations
                     Content = table.Column<string>(nullable: true),
                     ContentEncoding = table.Column<string>(nullable: true),
                     ContentType = table.Column<string>(nullable: true),
+                    Path = table.Column<string>(nullable: true),
                     Server = table.Column<string>(nullable: true),
                     StatusCode = table.Column<int>(nullable: false),
                     Vary = table.Column<string>(nullable: true)

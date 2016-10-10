@@ -8,7 +8,7 @@ using MockResponse;
 namespace MockResponse.Migrations
 {
     [DbContext(typeof(SqlLiteContext))]
-    [Migration("20161007145823_v_1.0.0")]
+    [Migration("20161010101511_v_1.0.0")]
     partial class v_100
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -28,6 +28,8 @@ namespace MockResponse.Migrations
                     b.Property<string>("ContentEncoding");
 
                     b.Property<string>("ContentType");
+
+                    b.Property<string>("Path");
 
                     b.Property<string>("Server");
 

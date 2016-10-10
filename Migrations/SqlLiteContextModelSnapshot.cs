@@ -28,6 +28,8 @@ namespace MockResponse.Migrations
 
                     b.Property<string>("ContentType");
 
+                    b.Property<string>("Path");
+
                     b.Property<string>("Server");
 
                     b.Property<int>("StatusCode");

@@ -1,7 +1,8 @@
-using System;
+using System.Linq;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+
 using Microsoft.Extensions.DependencyInjection;
 using System.Threading.Tasks;
 
@@ -32,21 +33,20 @@ namespace MockResponse
         }
 
         private Task ReturnConfiguredResponse(HttpContext context) {
-            return context.Response.WriteAsync("Found key");
-        }
-
-        private Task AddResponse(HttpContext context) {
-            using(var db = new SqlLiteContext())
-            {
-                try{
-                db.Responses.Add(new Response{ContentType = "application/json", StatusCode=200});
-                db.SaveChanges();
-                }catch(Exception ex){
-                    var a = ex.Message;
+            using(var db = new SqlLiteContext()){
+                var response = db.Responses.SingleOrDefault(d => d.Path == context.Request.Path.Value);
+                if(response == null) {
+                    context.Response.StatusCode = 400;
+                } else {
+                    context.Response.StatusCode = response.StatusCode;
+                    context.Response.ContentType = response.ContentType;
+                    context.Response.Headers["content-encoding"] = response.ContentEncoding;
+                    context.Response.Headers["Vary"] = response.Vary;
+                    context.Response.Headers["cache-control"] = response.CacheControl;
                 }
+                
+                return context.Response.WriteAsync(response?.Content ?? "Not found");
             }
-
-            return context.Response.WriteAsync("Added new response");
         }
     }
 }

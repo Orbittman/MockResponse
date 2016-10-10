@@ -21,5 +21,7 @@ namespace MockResponse
         public int StatusCode { get; set; } 
 
         public string Content { get; set; }
+
+        public string Path { get; set; }
     }
 }
