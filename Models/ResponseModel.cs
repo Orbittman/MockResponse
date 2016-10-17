@@ -1,4 +1,6 @@
 public class ResponseModel{
+    public int ResponseId { get; set; }
+
     public string ContentType { get; set; }
 
     public int StatusCode { get; set; }
@@ -12,4 +14,6 @@ public class ResponseModel{
     public string CacheControl { get; set; } 
 
     public string Content { get; set; }
+
+    public string Path { get; set; }
 }

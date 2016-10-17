@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using System.IO;
-using Microsoft.AspNetCore.Mvc;
 
 namespace MockResponse
 {
@@ -9,19 +8,25 @@ namespace MockResponse
     {
         public static void Main(string[] args)
         {
-            var config = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("hosting.json", optional: true)
+            var config = new ConfigurationBuilder()       
+                .SetBasePath(Directory.GetCurrentDirectory())     
+                .AddUserSecrets()
+                .AddJsonFile($"hosting.json", optional: true)
                 .Build();
 
             var host = new WebHostBuilder()
+                .UseKestrel(options =>
+                {
+                    options.NoDelay = true;
+                    options.UseHttps("www.idldev.net.pfx", "xxxxxxxx");
+                    options.UseConnectionLogging();
+                })
                 .UseContentRoot(Directory.GetCurrentDirectory())
-                .UseKestrel()
                 .UseConfiguration(config)
                 .UseStartup<Startup>()
                 .Build();
 
-            host.Run();
+                host.Run();
         }
     }
 }

@@ -11,7 +11,10 @@
             "cwd": "${workspaceRoot}",
             "externalConsole": false,
             "stopAtEntry": false,
-            "internalConsoleOptions": "openOnSessionStart"
+            "internalConsoleOptions": "openOnSessionStart",
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            }
         },
         {
             "name": ".NET Core Attach",
