@@ -18,7 +18,7 @@ namespace MockResponse
                 .UseKestrel(options =>
                 {
                     options.NoDelay = true;
-                    options.UseHttps("www.idldev.net.pfx", "xxxxxxxx");
+                    //options.UseHttps("www.idldev.net.pfx", "xxxxxxxx");
                     options.UseConnectionLogging();
                 })
                 .UseContentRoot(Directory.GetCurrentDirectory())

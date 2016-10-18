@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 
-using System.IO;
 using System.Threading.Tasks;
 
 using AutoMapper;
@@ -15,8 +14,6 @@ namespace MockResponse
     {
         private IHostingEnvironment _environment;
 
-        private Response _defaultResponse = new Response { ContentType = "application/text", StatusCode = 400, Content = "This is the default response" };
-
         public Startup(IHostingEnvironment environment)
         {
             _environment = environment;
@@ -24,13 +21,6 @@ namespace MockResponse
 
         public void ConfigureServices(IServiceCollection services)
         {
-            // services.Configure<KestrelServerOptions>(options =>
-            // {
-            //     options.ThreadCount = 4;
-            //     options.UseHttps(new X509Certificate2(...));
-            //     options.UseConnectionLogging();
-            // });
-
             services.AddMvc(options =>
             {
                 options.RespectBrowserAcceptHeader = true;
@@ -53,25 +43,22 @@ namespace MockResponse
             using (var db = new SqlLiteContext())
             {
                 Response response = new Response();
-                if (context.Request.Path.Value == "/")
+                var path = context.Request.Path.Value.TrimStart('/');
+                if (path == string.Empty)
                 {
                     context.Response.StatusCode = 200;
                     response.Content = "Mock Response - OK";
                 }
                 else
                 {
-                    response = db.Responses.SingleOrDefault(d => d.Path == context.Request.Path.Value);
+                    response = db.Responses.SingleOrDefault(d => d.Path == path && d.Domain.Name == context.Request.Host.Host);
                     if (response == null)
                     {
-                        context.Response.StatusCode = 400;
+                        context.Response.StatusCode = 404;
                     }
                     else
                     {
                         context.Response.StatusCode = response.StatusCode;
-                        context.Response.ContentType = response.ContentType;
-                        context.Response.Headers["content-encoding"] = response.ContentEncoding;
-                        context.Response.Headers["Vary"] = response.Vary;
-                        context.Response.Headers["cache-control"] = response.CacheControl;
                     }
                 }
 

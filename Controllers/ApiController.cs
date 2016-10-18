@@ -21,12 +21,9 @@ namespace MockResponse
                 var responses = db.Responses.Select(d => new ResponseModel
                 {
                     StatusCode = d.StatusCode,
-                    ContentType = d.ContentType,
-                    ResponseId = d.ResponseId,
+                    ResponseId = d.Id,
                     Path = d.Path,
-                    Content = d.Content,
-                    Vary = d.Vary,
-                    Server = d.Server
+                    Content = d.Content
                 }).ToArray();
 
                 return Json(responses);
@@ -38,13 +35,13 @@ namespace MockResponse
         {
             using (var db = new SqlLiteContext())
             {
-                var response = db.Responses.SingleOrDefault(d => d.ResponseId == responseId);
+                var response = db.Responses.SingleOrDefault(d => d.Id == responseId);
                 if (response != null)
                 {
                     db.Remove(response);
                     db.SaveChanges();
                 }
-                
+
                 return Json(responseId);
             }
         }
@@ -52,24 +49,27 @@ namespace MockResponse
         [HttpPost("responses")]
         public object PostResponses([FromBody]ResponseModel model)
         {
-            var dbModel = new Response
-            {
-                ContentType = model.ContentType,
-                StatusCode = model.StatusCode,
-                Path = model.Path,
-                Content = model.Content,
-                CacheControl = model.CacheControl,
-                Vary = model.Vary,
-                Server = model.Server
-            };
-
             using (var db = new SqlLiteContext())
             {
+                var domain = db.Domains.SingleOrDefault(d => d.Name == Request.Host.Host);
+                if (domain == null) {
+                    domain = new Domain{ Name = Request.Host.Host };
+                }
+
+                var dbModel = new Response
+                {
+                    StatusCode = model.StatusCode,
+                    Path = model.Path,
+                    Content = model.Content,
+                    Domain = domain,
+                    Headers = model.Headers.Select(h => new Header { Name = h.Name, Value = h.Value }).ToList()
+                };
+
                 var responses = db.Responses.Add(dbModel);
                 db.SaveChanges();
-            }
 
-            return Json(model);
+                return Json(model);
+            }
         }
     }
 }
