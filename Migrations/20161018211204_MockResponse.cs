@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MockResponse.Migrations
 {
-    public partial class MockResponse_101 : Migration
+    public partial class MockResponse : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -51,6 +51,7 @@ namespace MockResponse.Migrations
                         .Annotation("Autoincrement", true),
                     Name = table.Column<string>(nullable: true),
                     ResponseId = table.Column<int>(nullable: true),
+                    ResponseId1 = table.Column<int>(nullable: true),
                     Value = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -61,6 +62,12 @@ namespace MockResponse.Migrations
                         column: x => x.ResponseId,
                         principalTable: "Responses",
                         principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Headers_Responses_ResponseId1",
+                        column: x => x.ResponseId1,
+                        principalTable: "Responses",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -68,6 +75,11 @@ namespace MockResponse.Migrations
                 name: "IX_Headers_ResponseId",
                 table: "Headers",
                 column: "ResponseId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Headers_ResponseId1",
+                table: "Headers",
+                column: "ResponseId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Responses_DomainId",

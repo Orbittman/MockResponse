@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace MockResponse{
     public class SqlLiteContext : DbContext {
@@ -19,7 +20,15 @@ namespace MockResponse{
                 .HasMany(d => d.Responses)
                 .WithOne(r => r.Domain);
             
-            builder.Entity<Response>().HasMany(r => r.Headers).WithOne(h => h.Response);
+            builder
+                .Entity<Response>()
+                .HasMany(r => r.Headers)
+                .WithOne(h => h.Response)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder
+                .Entity<Header>()
+                .HasOne<Response>();
         }
     }
 }

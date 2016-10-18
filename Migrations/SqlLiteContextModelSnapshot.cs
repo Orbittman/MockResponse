@@ -36,11 +36,15 @@ namespace MockResponse.Migrations
 
                     b.Property<int?>("ResponseId");
 
+                    b.Property<int?>("ResponseId1");
+
                     b.Property<string>("Value");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ResponseId");
+
+                    b.HasIndex("ResponseId1");
 
                     b.ToTable("Headers");
                 });
@@ -69,7 +73,12 @@ namespace MockResponse.Migrations
                 {
                     b.HasOne("MockResponse.Response", "Response")
                         .WithMany("Headers")
-                        .HasForeignKey("ResponseId");
+                        .HasForeignKey("ResponseId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("MockResponse.Response")
+                        .WithMany()
+                        .HasForeignKey("ResponseId1");
                 });
 
             modelBuilder.Entity("MockResponse.Response", b =>

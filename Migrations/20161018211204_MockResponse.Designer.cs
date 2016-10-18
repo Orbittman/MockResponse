@@ -8,8 +8,8 @@ using MockResponse;
 namespace MockResponse.Migrations
 {
     [DbContext(typeof(SqlLiteContext))]
-    [Migration("20161018202915_MockResponse_1.0.1")]
-    partial class MockResponse_101
+    [Migration("20161018211204_MockResponse")]
+    partial class MockResponse
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -37,11 +37,15 @@ namespace MockResponse.Migrations
 
                     b.Property<int?>("ResponseId");
 
+                    b.Property<int?>("ResponseId1");
+
                     b.Property<string>("Value");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ResponseId");
+
+                    b.HasIndex("ResponseId1");
 
                     b.ToTable("Headers");
                 });
@@ -70,7 +74,12 @@ namespace MockResponse.Migrations
                 {
                     b.HasOne("MockResponse.Response", "Response")
                         .WithMany("Headers")
-                        .HasForeignKey("ResponseId");
+                        .HasForeignKey("ResponseId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("MockResponse.Response")
+                        .WithMany()
+                        .HasForeignKey("ResponseId1");
                 });
 
             modelBuilder.Entity("MockResponse.Response", b =>

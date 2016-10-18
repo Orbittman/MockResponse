@@ -12,7 +12,7 @@ namespace MockResponse
         {
             _mapper = mapper;
         }
-
+        
         [HttpGet("responses")]
         public object GetResources()
         {
@@ -23,7 +23,8 @@ namespace MockResponse
                     StatusCode = d.StatusCode,
                     ResponseId = d.Id,
                     Path = d.Path,
-                    Content = d.Content
+                    Content = d.Content,
+                    Headers = d.Headers.Select(h => new HeaderModel { Name = h.Name, Value = h.Value}).ToList()
                 }).ToArray();
 
                 return Json(responses);
@@ -40,9 +41,11 @@ namespace MockResponse
                 {
                     db.Remove(response);
                     db.SaveChanges();
-                }
 
-                return Json(responseId);
+                    return Json(responseId);
+                } else {
+                    return NotFound();
+                }
             }
         }
 

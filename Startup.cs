@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Threading.Tasks;
 
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 
 namespace MockResponse
 {
@@ -51,7 +52,11 @@ namespace MockResponse
                 }
                 else
                 {
-                    response = db.Responses.SingleOrDefault(d => d.Path == path && d.Domain.Name == context.Request.Host.Host);
+                    response = db
+                        .Responses
+                        .Include(r => r.Headers)
+                        .SingleOrDefault(d => d.Path == path && d.Domain.Name == context.Request.Host.Host);
+                        
                     if (response == null)
                     {
                         context.Response.StatusCode = 404;
@@ -59,6 +64,13 @@ namespace MockResponse
                     else
                     {
                         context.Response.StatusCode = response.StatusCode;
+                        if (response.Headers != null)
+                        {
+                            foreach (var header in response.Headers)
+                            {
+                                context.Response.Headers[header.Name] = header.Value;
+                            }
+                        }
                     }
                 }
 
