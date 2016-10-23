@@ -10,4 +10,4 @@ RUN dotnet restore
 
 # Expose the port and start the app
 EXPOSE 80
-CMD [ "dotnet", "run", "--environment", "Staging" ]
+CMD [ "dotnet", "run", "--environment", "Production" ]

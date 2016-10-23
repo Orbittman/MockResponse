@@ -1,0 +1,11 @@
+core-app:
+  build: ./dotnet
+
+nginx:
+  build: ./nginx
+  container_name: www.mockresponse.com
+  ports:
+    - "80:80"
+    - "443:443"
+  links:
+    - core-app
