@@ -1,11 +1,13 @@
-core-app:
-  build: ./dotnet
+version: '2'
+services:
+  mockresponse-app:
+    container_name: mockresponse_site
+    build: ./dotnet
+    
 
-nginx:
-  build: ./nginx
-  container_name: www.mockresponse.com
-  ports:
-    - "80:80"
-    - "443:443"
-  links:
-    - core-app
+  reverse-proxy:
+    build: ./nginx
+    container_name: mockresponse_hosting
+    ports:
+      - "1111:1111"
+  
