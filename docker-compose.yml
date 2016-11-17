@@ -1,9 +1,12 @@
 version: '2'
 services:
-  mockresponse-app:
-    container_name: mockresponse_site
-    build: ./dotnet
+  mockresponse-api:
+    container_name: mockresponse_api
+    build: ./api  
     
+  mockresponse-site:
+    container_name: mockresponse_site
+    build: ./site
 
   reverse-proxy:
     build: ./nginx

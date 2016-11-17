@@ -9,5 +9,5 @@ COPY . /usr/src/mockresponse
 RUN dotnet restore
 
 # Expose the port and start the app
-EXPOSE 80
-CMD [ "dotnet", "run", "--environment", "Production" ]
+EXPOSE 5001
+CMD [ "dotnet", "run", "--environment", "Production", "--server.urls", "http://*:5001" ]
