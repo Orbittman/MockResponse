@@ -11,7 +11,15 @@
         "Microsoft.NETCore.App": {
           "type": "platform",
           "version": "1.0.1"
-        }
+        },
+        "Microsoft.Extensions.Configuration.Json": "1.0.0",
+        "Microsoft.Extensions.Configuration.CommandLine": "1.0.0",
+        "Microsoft.AspNetCore.Hosting": "1.0.0",
+        "Microsoft.AspNetCore.Mvc": "1.0.0",
+        "Microsoft.AspNetCore.Mvc.Formatters.Json": "1.0.0",
+        "AutoMapper.Extensions.Microsoft.DependencyInjection": "1.1.0",
+        "Microsoft.AspNetCore.Server.Kestrel": "1.0.0",
+        "Microsoft.AspNetCore.Server.Kestrel.Https": "1.0.0"
       },
       "imports": "dnxcore50"
     }

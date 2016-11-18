@@ -1,3 +1,6 @@
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+
 namespace MockResponse.Site
 {
     public class Startup
@@ -13,7 +16,6 @@ namespace MockResponse.Site
         public void Configure(IApplicationBuilder app)
         {
             app.UseMvc();
-            app.Run();
         }
     }
 }
