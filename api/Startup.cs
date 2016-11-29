@@ -6,6 +6,8 @@ using Microsoft.Extensions.DependencyInjection;
 
 using System.Threading.Tasks;
 
+using api.Filters;
+
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 
@@ -29,8 +31,12 @@ namespace MockResponse
 
             Mapper.Initialize(c => { });
             services.AddSingleton(Mapper.Configuration);
-            services.AddScoped<IMapper>(sp => new Mapper(sp.GetRequiredService<AutoMapper.IConfigurationProvider>(), sp.GetService));
+            services.AddScoped<IMapper>(sp => new Mapper(sp.GetRequiredService<IConfigurationProvider>(), sp.GetService));
             services.AddAutoMapper();
+
+            services.AddScoped<ThrottlingFilter>();
+            services.AddTransient<IDateTimeProvider, DateTimeProvider>();
+            services.Add(new ServiceDescriptor(typeof(IThrottler), typeof(Throttler), ServiceLifetime.Singleton));
         }
 
         public void Configure(IApplicationBuilder app)
