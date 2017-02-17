@@ -10,5 +10,5 @@ RUN dotnet restore
 
 # Expose the port and start the app
 EXPOSE 5000
-RUN [ "dotnet", "ef", "database", "update" ]
+#RUN [ "dotnet", "ef", "database", "update" ]
 CMD [ "dotnet", "run", "--environment", "Production", "--server.urls", "http://*:5000" ]

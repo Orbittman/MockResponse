@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using AutoMapper;
+using Microsoft.AspNetCore.Http;
 
 namespace MockResponse
 {
@@ -11,6 +12,19 @@ namespace MockResponse
         public ApiController(IMapper mapper)
         {
             _mapper = mapper;
+        }
+
+        [HttpGet("")]
+        public void Index(){
+            Response response = new Response();
+            var path = HttpContext.Request.Path.Value.TrimStart('/');
+            if (path == string.Empty)
+            {
+                HttpContext.Response.StatusCode = 200;
+                response.Content = "Mock Response - OK";
+            }
+
+           HttpContext.Response.WriteAsync(response?.Content ?? "Not found");
         }
         
         [HttpGet("responses")]
