@@ -1,11 +1,10 @@
 using System.Collections.Generic;
-using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Bson;
 
 namespace MockResponse.MongoDb
 {
     public class Response {    
-        [BsonId]   
-        public int Id { get; set; }
+        public ObjectId Id { get; set; }
 
         public Domain Domain { get; set; }
 
