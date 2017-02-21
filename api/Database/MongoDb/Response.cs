@@ -1,10 +1,10 @@
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
+using MongoDB.Bson.Serialization.Attributes;
 
-namespace MockResponse
+namespace MockResponse.MongoDb
 {
-    public class Response {
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]        
+    public class Response {    
+        [BsonId]   
         public int Id { get; set; }
 
         public Domain Domain { get; set; }
@@ -16,5 +16,13 @@ namespace MockResponse
         public string Content { get; set; }
 
         public string Path { get; set; }
+    }
+
+    public class Domain{
+
+    }
+
+    public class Header{
+
     }
 }

@@ -4,10 +4,11 @@ public class MongoDbClient : INoSqlClient
 {
     private MongoClient _client;
 
-    private IMongoDatabase _db;
-
     public MongoDbClient(string connectionString){
         _client = new MongoClient(connectionString);
-        _db = _client.GetDatabase("EmployeeDB");
+    }
+
+    public IMongoDatabase GetDatabase(){
+        return _client.GetDatabase("IDL_Monitor");
     }
 }

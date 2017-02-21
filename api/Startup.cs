@@ -37,7 +37,7 @@ namespace MockResponse
             services.AddTransient<IDateTimeProvider, DateTimeProvider>();
             services.Add(new ServiceDescriptor(typeof(IThrottler), typeof(Throttler), ServiceLifetime.Singleton));
 
-            services.AddTransient<INoSqlClient, MongoDbClient>();
+            services.AddSingleton<INoSqlClient>(client => new MongoDbClient("mongodb://localhost:27017"));
         }
 
         public void Configure(IApplicationBuilder app)
