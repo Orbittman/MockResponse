@@ -3,7 +3,7 @@ using MongoDB.Bson;
 
 namespace MockResponse.MongoDb
 {
-    public class Response {    
+    public class Response{ 
         public ObjectId Id { get; set; }
 
         public Domain Domain { get; set; }
@@ -18,10 +18,12 @@ namespace MockResponse.MongoDb
     }
 
     public class Domain{
-
+        public string Host { get; set; }
     }
 
     public class Header{
+        public string Name { get; set; }
 
+        public string Value { get; set; }
     }
 }

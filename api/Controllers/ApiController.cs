@@ -19,79 +19,73 @@ namespace MockResponse
             _mapper = mapper;
             _dbClient = dbClient;
         }
-
-        [HttpGet("")]
-        public void Index(){
-            var response = new Response();
-            var path = HttpContext.Request.Path.Value.TrimStart('/');
-            if (path == string.Empty)
-            {
-                HttpContext.Response.StatusCode = 200;
-                response.Content = "Mock Response - OK";
-            }
-            
-            HttpContext.Response.WriteAsync(response?.Content ?? "Not found");
-        }
         
         [HttpGet("responses")]
         public object GetResources()
         {
-            var db = _dbClient.GetDatabase();
-            var collection = db.GetCollection<Response>("Responses");
-            var responses = collection.Find(new BsonDocument()).ToList(); //.Responses.Select(d => new ResponseModel
-                // {
-                //     StatusCode = d.StatusCode,
-                //     ResponseId = d.Id,
-                //     Path = d.Path,
-                //     Content = d.Content,
-                //     Headers = d.Headers.Select(h => new HeaderModel { Name = h.Name, Value = h.Value}).ToList()
-                // }).ToArray();
-
-                return Json(responses);
+            var responses = _dbClient.Page<Response>(new BsonDocument(), "Responses", 1, 10);
+            return Json(responses);
         }
 
         // [HttpDelete("responses/{responseId}")]
         // public object DeleteResources(int responseId)
         // {
-        //     using (var db = new SqlLiteContext())
-        //     {
-        //         var response = db.Responses.SingleOrDefault(d => d.Id == responseId);
-        //         if (response != null)
-        //         {
-        //             db.Remove(response);
-        //             db.SaveChanges();
+           
+            // using (var db = new SqlLiteContext())
+            // {
+            //     var response = db.Responses.SingleOrDefault(d => d.Id == responseId);
+            //     if (response != null)
+            //     {
+            //         db.Remove(response);
+            //         db.SaveChanges();
 
-        //             return Json(responseId);
-        //         } else {
-        //             return NotFound();
-        //         }
-        //     }
-        // }
+            //         return Json(responseId);
+            //     } else {
+            //         return NotFound();
+            //     }
+            // }
+        //}
 
-        // [HttpPost("responses")]
-        // public object PostResponses([FromBody]ResponseModel model)
-        // {
-        //     using (var db = new SqlLiteContext())
-        //     {
-        //         var domain = db.Domains.SingleOrDefault(d => d.Name == Request.Host.Host);
-        //         if (domain == null) {
-        //             domain = new Domain{ Name = Request.Host.Host };
-        //         }
+        [HttpPost("responses")]
+        public object PostResponses([FromBody]ResponseModel model)
+        {
+            var response = new Response
+                {
+                    StatusCode = model.StatusCode,
+                    Path = model.Path,
+                    Content = model.Content,
+                    Domain = new Domain() { Host = Request.Host.Host},
+                    Headers = model.Headers?.Select(h => new Header { Name = h.Name, Value = h.Value }).ToList()
+                };
 
-        //         var dbModel = new Response
-        //         {
-        //             StatusCode = model.StatusCode,
-        //             Path = model.Path,
-        //             Content = model.Content,
-        //             Domain = domain,
-        //             Headers = model.Headers.Select(h => new Header { Name = h.Name, Value = h.Value }).ToList()
-        //         };
+            _dbClient.InsertOne(response, "Responses");
+            return  Json(model);
+        }
 
-        //         var responses = db.Responses.Add(dbModel);
-        //         db.SaveChanges();
+        [HttpGet("{*url}")]
+        public void Index(){
+            var response = new Response();
+            var content = "Not found";
+            var path = HttpContext.Request.Path.Value.TrimStart('/');
+            if (path == string.Empty)
+            {
+                HttpContext.Response.StatusCode = 200;
+                response.Content = "Mock Response - OK";
+            }else{
+                var filter = Builders<Response>.Filter.Eq(r => r.Path, $"{path}");
+                response = _dbClient.Find<Response>(filter, "Responses").SingleOrDefault();
+                if(response != null){
+                    content = response.Content;
+                    HttpContext.Response.StatusCode = response.StatusCode;
+                    HttpContext.Response.Headers.Clear();
+                    if(response.Headers != null)
+                    {
+                        response.Headers.ForEach(h => HttpContext.Response.Headers.Append(h.Name, h.Value));
+                    }
+                }
+            }
 
-        //         return Json(model);
-        //     }
-        // }
+            HttpContext.Response.WriteAsync(content);
+        }
     }
 }
