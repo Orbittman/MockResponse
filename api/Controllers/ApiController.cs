@@ -21,14 +21,14 @@ namespace MockResponse
         }
         
         [HttpGet("responses")]
-        public object GetResources()
+        public IActionResult GetResources()
         {
             var responses = _dbClient.Page<Response>(new BsonDocument(), "Responses", 1, 10);
             return Json(responses);
         }
 
-        [HttpDelete("responses/{responseId}")]
-        public object DeleteResources(string id)
+        [HttpDelete("responses/{id}")]
+        public IActionResult DeleteResources(string id)
         {   
             var filter = Builders<Response>.Filter.Eq(r => r.Id, new ObjectId(id));
             var deletedCount = _dbClient.DeleteOne<Response>(filter, "Responses");
@@ -42,7 +42,7 @@ namespace MockResponse
         }
 
         [HttpPost("responses")]
-        public object PostResponses([FromBody]ResponseModel model)
+        public IActionResult PostResponses([FromBody]ResponseModel model)
         {
             var response = new Response
                 {
