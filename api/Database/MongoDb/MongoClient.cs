@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using MockResponse.MongoDb;
 using MongoDB.Driver;
 
 public class MongoDbClient : INoSqlClient
@@ -23,6 +21,12 @@ public class MongoDbClient : INoSqlClient
     public void InsertOne<TResponse>(TResponse response, string collectionName)
     {
         GetCollection<TResponse>(collectionName).InsertOne(response);
+    }
+
+    public long DeleteOne<TResponse>(FilterDefinition<TResponse> filter, string collectionName)
+    {
+        var result = GetCollection<TResponse>(collectionName).DeleteOne(filter);
+        return result.DeletedCount;
     }
 
     private IFindFluent<TResponse, TResponse> GetQuery<TResponse>(FilterDefinition<TResponse> filter, string collectionName){

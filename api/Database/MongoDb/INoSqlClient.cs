@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using MockResponse.MongoDb;
 using MongoDB.Driver;
 
 public interface INoSqlClient
@@ -8,4 +7,5 @@ public interface INoSqlClient
 
     IEnumerable<TResponse> Page<TResponse>(FilterDefinition<TResponse> filter, string collectionName, int page, int pageSize);
     void InsertOne<TResponse>(TResponse response, string collectionName);
+    long DeleteOne<TResponse>(FilterDefinition<TResponse> filter, string collectionName);
 }

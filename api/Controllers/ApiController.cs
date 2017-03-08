@@ -27,24 +27,19 @@ namespace MockResponse
             return Json(responses);
         }
 
-        // [HttpDelete("responses/{responseId}")]
-        // public object DeleteResources(int responseId)
-        // {
-           
-            // using (var db = new SqlLiteContext())
-            // {
-            //     var response = db.Responses.SingleOrDefault(d => d.Id == responseId);
-            //     if (response != null)
-            //     {
-            //         db.Remove(response);
-            //         db.SaveChanges();
+        [HttpDelete("responses/{responseId}")]
+        public object DeleteResources(string id)
+        {   
+            var filter = Builders<Response>.Filter.Eq(r => r.Id, new ObjectId(id));
+            var deletedCount = _dbClient.DeleteOne<Response>(filter, "Responses");
+            
+            if(deletedCount > 0)
+            {
+                return Json(deletedCount);
+            }
 
-            //         return Json(responseId);
-            //     } else {
-            //         return NotFound();
-            //     }
-            // }
-        //}
+            return NotFound();
+        }
 
         [HttpPost("responses")]
         public object PostResponses([FromBody]ResponseModel model)
