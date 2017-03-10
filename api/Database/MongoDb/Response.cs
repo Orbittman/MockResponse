@@ -15,6 +15,7 @@ namespace MockResponse.MongoDb
         public string Content { get; set; }
 
         public string Path { get; set; }
+        public string ContentType { get; internal set; }
     }
 
     public class Domain{

@@ -4,7 +4,7 @@ namespace MockResponse
 {
     public class ResponseModel
     {
-        public int ResponseId { get; set; }
+        public string ResponseId { get; set; }
 
         public int StatusCode { get; set; }
 

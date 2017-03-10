@@ -18,9 +18,15 @@ public class MongoDbClient : INoSqlClient
     {
         return GetQuery(filter, collectionName).Skip((page - 1) * pageSize).Limit(pageSize).ToEnumerable();
     }
+
     public void InsertOne<TResponse>(TResponse response, string collectionName)
     {
         GetCollection<TResponse>(collectionName).InsertOne(response);
+    }
+    
+    public void UpdateOne<TResponse>(FilterDefinition<TResponse> filter, UpdateDefinition<TResponse> update, string collectionName)
+    {
+        GetCollection<TResponse>(collectionName).UpdateOne(filter, update);
     }
 
     public long DeleteOne<TResponse>(FilterDefinition<TResponse> filter, string collectionName)

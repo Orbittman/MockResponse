@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using MockResponse.MongoDb;
 using MongoDB.Driver;
 using MongoDB.Bson;
+using System.Threading.Tasks;
 
 namespace MockResponse
 {
@@ -68,10 +69,11 @@ namespace MockResponse
                 response.Content = "Mock Response - OK";
             }else{
                 var filter = Builders<Response>.Filter.Eq(r => r.Path, $"{path}");
-                response = _dbClient.Find<Response>(filter, "Responses").SingleOrDefault();
+                response = _dbClient.Find<Response>(filter, "Responses").FirstOrDefault();
                 if(response != null){
                     content = response.Content;
                     HttpContext.Response.StatusCode = response.StatusCode;
+                    HttpContext.Response.ContentType = response.ContentType;
                     HttpContext.Response.Headers.Clear();
                     if(response.Headers != null)
                     {
@@ -80,7 +82,7 @@ namespace MockResponse
                 }
             }
 
-            HttpContext.Response.WriteAsync(content);
+            Task.WaitAll(HttpContext.Response.WriteAsync(content));
         }
     }
 }
