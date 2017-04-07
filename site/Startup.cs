@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Logging;
+using MockResponse.Site.Bootstrap;
 
 namespace MockResponse.Site
 {
@@ -21,9 +21,8 @@ namespace MockResponse.Site
         {
             app.UseDeveloperExceptionPage();
             app.UseMvc(routes =>
-                routes.MapRoute("Home", string.Empty, new { controller = "Home", action = "Index" })
-            );
-            
+                ConfigureRoutes.Configure(routes)
+            );            
         }
     }
 }

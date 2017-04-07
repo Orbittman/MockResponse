@@ -9,5 +9,11 @@ namespace MockResponse.Site.Controllers
         {
             return View("Index");
         }
+
+        [HttpPost]
+        public IActionResult Login(string emailAddress)
+        {
+            return View("Login");
+        }
     }
 }
