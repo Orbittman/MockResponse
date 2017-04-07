@@ -20,7 +20,7 @@ namespace MockResponse
             _mapper = mapper;
             _dbClient = dbClient;
         }
-        
+
         [HttpGet("responses")]
         public IActionResult GetResources()
         {
@@ -30,11 +30,11 @@ namespace MockResponse
 
         [HttpDelete("responses/{id}")]
         public IActionResult DeleteResources(string id)
-        {   
+        {
             var filter = Builders<Response>.Filter.Eq(r => r.Id, new ObjectId(id));
             var deletedCount = _dbClient.DeleteOne<Response>(filter, "Responses");
-            
-            if(deletedCount > 0)
+
+            if (deletedCount > 0)
             {
                 return Json(deletedCount);
             }
@@ -46,20 +46,21 @@ namespace MockResponse
         public IActionResult PostResponses([FromBody]ResponseModel model)
         {
             var response = new Response
-                {
-                    StatusCode = model.StatusCode,
-                    Path = model.Path,
-                    Content = model.Content,
-                    Domain = new Domain() { Host = Request.Host.Host},
-                    Headers = model.Headers?.Select(h => new Header { Name = h.Name, Value = h.Value }).ToList()
-                };
+            {
+                StatusCode = model.StatusCode,
+                Path = model.Path,
+                Content = model.Content,
+                Domain = new Domain() { Host = Request.Host.Host },
+                Headers = model.Headers?.Select(h => new Header { Name = h.Name, Value = h.Value }).ToList()
+            };
 
             _dbClient.InsertOne(response, "Responses");
-            return  Json(model);
+            return Json(model);
         }
 
         [HttpGet("{*url}")]
-        public void Index(){
+        public void Index()
+        {
             var response = new Response();
             var content = "Not found";
             var path = HttpContext.Request.Path.Value.TrimStart('/');
@@ -67,18 +68,24 @@ namespace MockResponse
             {
                 HttpContext.Response.StatusCode = 200;
                 response.Content = "Mock Response - OK";
-            }else{
+            }
+            else
+            {
                 var filter = Builders<Response>.Filter.Eq(r => r.Path, $"{path}");
                 response = _dbClient.Find<Response>(filter, "Responses").FirstOrDefault();
-                if(response != null){
-                    content = response.Content;
-                    HttpContext.Response.StatusCode = response.StatusCode;
-                    HttpContext.Response.ContentType = response.ContentType;
-                    HttpContext.Response.Headers.Clear();
-                    if(response.Headers != null)
-                    {
-                        response.Headers.ForEach(h => HttpContext.Response.Headers.Append(h.Name, h.Value));
-                    }
+                if (response != null)
+                {
+                    //if (response.Domains.Any(d => d.Host == Request.Host.Host))
+                    //{
+                        content = response.Content;
+                        HttpContext.Response.StatusCode = response.StatusCode;
+                        HttpContext.Response.ContentType = response.ContentType;
+                        HttpContext.Response.Headers.Clear();
+                        if (response.Headers != null)
+                        {
+                            response.Headers.ForEach(h => HttpContext.Response.Headers.Append(h.Name, h.Value));
+                        }
+                    //}
                 }
             }
 

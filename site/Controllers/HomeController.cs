@@ -1,10 +1,13 @@
 using Microsoft.AspNetCore.Mvc;
 
-public class HomeController : Controller
+namespace MockResponse.Site.Controllers
 {
-    [HttpGet("")]
-    public ActionResult Index()
+    public class HomeController : Controller
     {
-        return View();
+        [HttpGet]
+        public IActionResult Index()
+        {
+            return View("Index");
+        }
     }
 }
