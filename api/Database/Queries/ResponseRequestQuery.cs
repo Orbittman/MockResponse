@@ -1,14 +1,23 @@
 using System.Collections.Generic;
 using System.Linq;
 
-public class ResponseRequestQuery : IResponseRequestQuery {
-    private INoSqlClient _client;
+using MockResponse.Api.Database.MongoDb;
+using MockResponse.Core.Data;
 
-    public ResponseRequestQuery(INoSqlClient client){
-        _client = client;
-    }
+namespace MockResponse.Api.Database.Queries
+{
+    public class ResponseRequestQuery : IResponseRequestQuery
+    {
+        private INoSqlClient _client;
 
-    public IEnumerable<HttpResponse> Execute(ResponseRequest request){
-        return Enumerable.Empty<HttpResponse>();
+        public ResponseRequestQuery(INoSqlClient client)
+        {
+            _client = client;
+        }
+
+        public IEnumerable<HttpResponse> Execute(ResponseRequest request)
+        {
+            return Enumerable.Empty<HttpResponse>();
+        }
     }
 }

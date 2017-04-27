@@ -1,4 +1,4 @@
-namespace MockResponse
+namespace MockResponse.Api.Models
 {
     public class HeaderModel
     {

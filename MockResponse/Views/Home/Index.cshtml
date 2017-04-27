@@ -1,0 +1,12 @@
+@{
+    Layout = "_Layout";
+}
+
+Login form
+@using (Html.BeginForm("Login", "Home", FormMethod.Post))
+{
+    <fieldset>
+        <input type="text" placeholder="Email" maxlength="100" id="email"/>
+        <button type="submit">Submit</button>
+    </fieldset>
+}

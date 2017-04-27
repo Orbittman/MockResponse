@@ -1,12 +1,13 @@
+using AutoMapper;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 
-using api.Filters;
+using MockResponse.Api.Filters;
+using MockResponse.Core.Data;
 
-using AutoMapper;
-
-namespace MockResponse
+namespace MockResponse.Api
 {
     public class Startup
     {
@@ -19,10 +20,7 @@ namespace MockResponse
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc(options =>
-            {
-                options.RespectBrowserAcceptHeader = true;
-            });
+            services.AddMvc(options => { options.RespectBrowserAcceptHeader = true; });
 
             Mapper.Initialize(c => { });
             services.AddSingleton(Mapper.Configuration);
@@ -39,6 +37,6 @@ namespace MockResponse
         public void Configure(IApplicationBuilder app)
         {
             app.UseMvc();
-        }        
+        }
     }
 }

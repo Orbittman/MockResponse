@@ -1,33 +1,35 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using System.IO;
+﻿using System.IO;
 
-namespace MockResponse
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+
+namespace MockResponse.Api
 {
     public class Program
     {
         public static void Main(string[] args)
         {
-            var config = new ConfigurationBuilder()   
-                .SetBasePath(Directory.GetCurrentDirectory())     
+            var config = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
                 .AddUserSecrets()
-                .AddJsonFile("hosting.json", optional: false)    
+                .AddJsonFile("hosting.json", optional: false)
                 .AddCommandLine(args)
                 .Build();
 
             var host = new WebHostBuilder()
-                .UseKestrel(options =>
-                {
-                    options.NoDelay = true;
-                    //options.UseHttps("www.idldev.net.pfx", "xxxxxxxx");
-                    options.UseConnectionLogging();
-                })
+                .UseKestrel(
+                    options =>
+                    {
+                        options.NoDelay = true;
+                        //options.UseHttps("www.idldev.net.pfx", "xxxxxxxx");
+                        options.UseConnectionLogging();
+                    })
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseConfiguration(config)
                 .UseStartup<Startup>()
                 .Build();
 
-                host.Run();
+            host.Run();
         }
     }
 }

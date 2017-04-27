@@ -4,7 +4,7 @@ using System.Net.Http;
 
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace api.Filters
+namespace MockResponse.Api.Filters
 {
     public class ThrottlingFilter : ActionFilterAttribute
     {
@@ -29,9 +29,9 @@ namespace api.Filters
 
     public class Throttler : IThrottler
     {
-        private readonly IDateTimeProvider _dateTimeProvider;
         private const int _throttleWindowSeconds = 10;
         private const int _throttleCount = 10;
+        private readonly IDateTimeProvider _dateTimeProvider;
         private readonly ConcurrentDictionary<string, ThrottleState> _hostCounts = new ConcurrentDictionary<string, ThrottleState>();
 
         public Throttler(IDateTimeProvider dateTimeProvider)

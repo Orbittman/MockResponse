@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" Sdk="Microsoft.Docker.Sdk">
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>3383f570-083e-4e7d-922d-0ae1a52b087d</ProjectGuid>
+  </PropertyGroup>
+</Project>

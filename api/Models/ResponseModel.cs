@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace MockResponse
+namespace MockResponse.Api.Models
 {
     public class ResponseModel
     {

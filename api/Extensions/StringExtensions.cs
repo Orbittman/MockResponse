@@ -1,6 +1,6 @@
 using System.Text.RegularExpressions;
 
-namespace MockResponse
+namespace MockResponse.Api.Extensions
 {
     public static class StringExtensions
     {
