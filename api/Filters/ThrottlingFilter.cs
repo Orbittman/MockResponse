@@ -4,6 +4,8 @@ using System.Net.Http;
 
 using Microsoft.AspNetCore.Mvc.Filters;
 
+using MockResponse.Core.Utilities;
+
 namespace MockResponse.Api.Filters
 {
     public class ThrottlingFilter : ActionFilterAttribute
@@ -72,15 +74,5 @@ namespace MockResponse.Api.Filters
 
             public DateTime ResetTime { get; private set; }
         }
-    }
-
-    public interface IDateTimeProvider
-    {
-        DateTime Now { get; }
-    }
-
-    public class DateTimeProvider : IDateTimeProvider
-    {
-        public DateTime Now => DateTime.Now;
     }
 }

@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 using MockResponse.Api.Filters;
 using MockResponse.Core.Data;
+using MockResponse.Core.Utilities;
 
 namespace MockResponse.Api
 {

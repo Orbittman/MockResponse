@@ -8,7 +8,7 @@ namespace MockResponse.Core.Data.Models
     {
         public ObjectId Id { get; set; }
 
-        public string Email { get; set; }
+        public string AuthIdentity { get; set; }
 
         public string Token { get; set; }
 
