@@ -38,4 +38,8 @@
     <DotNetCliToolReference Include="BundlerMinifier.Core" Version="2.2.301" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\MockResponse.Core\MockResponse.Core.csproj" />
+  </ItemGroup>
+
 </Project>
