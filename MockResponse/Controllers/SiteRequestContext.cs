@@ -2,6 +2,8 @@ using System;
 
 using Microsoft.AspNetCore.Http;
 
+using MockResponse.Core.Caching;
+
 namespace MockResponse.Site.Controllers
 {
     public class SiteRequestContext : ISiteRequestContext

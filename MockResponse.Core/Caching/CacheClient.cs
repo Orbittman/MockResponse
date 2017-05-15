@@ -1,6 +1,7 @@
+using System;
 using System.Collections.Generic;
 
-namespace MockResponse.Site.Controllers
+namespace MockResponse.Core.Caching
 {
     public class CacheClient : ICacheClient
     {
@@ -28,6 +29,11 @@ namespace MockResponse.Site.Controllers
             {
                 _cache.Add(key, value);
             }
+        }
+
+        public void Set<TValue>(string key, TValue value, TimeSpan duration)
+        {
+            Set(key, value);
         }
     }
 }

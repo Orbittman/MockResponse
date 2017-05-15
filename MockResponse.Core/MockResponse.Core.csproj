@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="MongoDB.Driver" Version="2.4.3" />
+    <PackageReference Include="ServiceStack.Redis.Core" Version="1.0.41" />
   </ItemGroup>
 
 </Project>
