@@ -28,16 +28,16 @@ namespace MockResponse.Api.Controllers
         }
 
         [HttpGet("responses")]
-        public IActionResult GetResources()
+        public IActionResult GetResources(ResourcesRequest request)
         {
             var responses = _dbClient.Page<Response>(new BsonDocument(), "Responses", 1, 10);
             return Json(responses);
         }
 
         [HttpDelete("responses/{id}")]
-        public IActionResult DeleteResources(string id)
+        public IActionResult DeleteResources(ResourceRequest request)
         {
-            var filter = Builders<Response>.Filter.Eq(r => r.Id, new ObjectId(id));
+            var filter = Builders<Response>.Filter.Eq(r => r.Id, new ObjectId(request.RequestId));
             var deletedCount = _dbClient.DeleteOne(filter, "Responses");
 
             if (deletedCount > 0)
@@ -94,5 +94,19 @@ namespace MockResponse.Api.Controllers
 
             Task.WaitAll(HttpContext.Response.WriteAsync(content));
         }
+    }
+
+    public class ResourceRequest : BaseRequest
+    {
+        public string RequestId { get; set; }
+    }
+
+    public class ResourcesRequest : BaseRequest
+    {
+    }
+
+    public class BaseRequest
+    {
+        public string ApiKey { get; set; }
     }
 }

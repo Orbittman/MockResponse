@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using MockResponse.Core.Data;
 using MockResponse.Core.Data.Models;
 using MockResponse.Core.Utilities;
+using MockResponse.Site.Models;
 
 using MongoDB.Driver;
 
@@ -15,19 +16,17 @@ namespace MockResponse.Site.Controllers
     {
         private readonly INoSqlClient _dbClient;
         private readonly IEmailClient _emailClient;
-        private readonly ISiteRequestContext _requestContext;
         private readonly IDateTimeProvider _dateTimeProvider;
 
         public HomeController(
-            INoSqlClient dbClient, 
-            IEmailClient emailClient, 
+            INoSqlClient dbClient,
+            IEmailClient emailClient,
             ISiteRequestContext requestContext,
             IDateTimeProvider dateTimeProvider)
             : base(requestContext)
         {
             _dbClient = dbClient;
             _emailClient = emailClient;
-            _requestContext = requestContext;
             _dateTimeProvider = dateTimeProvider;
         }
 
@@ -47,13 +46,15 @@ namespace MockResponse.Site.Controllers
             }
 
             var token = Guid.NewGuid().ToString();
-            _dbClient.InsertOne(new LoginRequest{ AuthIdentity = authIdentity, TimeStamp = _dateTimeProvider.Now, Token = token}, nameof(Core.Data.Models.LoginRequest));
+            _dbClient.InsertOne(
+                new LoginRequest { AuthIdentity = authIdentity, TimeStamp = _dateTimeProvider.Now, Token = token },
+                nameof(Core.Data.Models.LoginRequest));
 
             // Email the link
             var loginMethod = ParseLoginMethod(authIdentity);
             if (loginMethod == LoginMethod.Email)
             {
-                _emailClient.Send("tim@vouchercloud.com", "tim@vouchercloud.com", $"<a href=\"http://127.0.0.1:1236/login/{token}\">Login</a>");
+                _emailClient.Send(authIdentity, "tim@vouchercloud.com", $"<a href=\"http://127.0.0.1:1236/login/{token}\">Login</a>");
             }
             else
             {
@@ -78,41 +79,24 @@ namespace MockResponse.Site.Controllers
                 return Unauthorized();
             }
 
-            _requestContext.SaveUserSession(new UserSession
+            // Find an existing account record
+            var account = _dbClient.Find(Builders<Account>.Filter.Eq(r => r.PrimaryIdentity, loginRequest.AuthIdentity), nameof(Account))
+                                   .FirstOrDefault();
+            if (account == null)
             {
-                Authenticated = true,
-                AuthenticatedAt = _dateTimeProvider.Now,
-                AuthenticationToken = token
-            });
+                _dbClient.InsertOne(new Account { PrimaryIdentity = loginRequest.AuthIdentity, ApiKey = Guid.NewGuid().ToString() }, nameof(Account));
+            }
+
+            RequestContext.SaveUserSession(
+                new UserSession
+                {
+                    Authenticated = true,
+                    AuthenticatedAt = _dateTimeProvider.Now,
+                    AuthenticationToken = token
+                });
 
             return Redirect("/");
         }
-    }
-
-    public class BaseController : Controller
-    {
-        private readonly ISiteRequestContext _requestContext;
-
-        public BaseController(ISiteRequestContext requestContext)
-        {
-            _requestContext = requestContext;
-        }
-        protected TModel CreateViewModel<TModel>(Action<TModel> constructionPredicate = null)
-            where TModel : BaseViewModel, new()
-        {
-            var model = new TModel { Authenticated = _requestContext.Authenticated };
-            constructionPredicate?.Invoke(model);
-            return model;
-        }
-    }
-
-    public class HomeIndexModel : BaseViewModel
-    {
-    }
-
-    public abstract class BaseViewModel
-    {
-        public bool Authenticated { get; set; }
     }
 
     internal enum LoginMethod

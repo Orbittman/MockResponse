@@ -11,6 +11,7 @@ using MockResponse.Core.Data;
 using MockResponse.Core.Utilities;
 using MockResponse.Site.Bootstrap;
 using MockResponse.Site.Controllers;
+using MockResponse.Site.Models;
 
 using ServiceStack.Redis;
 
