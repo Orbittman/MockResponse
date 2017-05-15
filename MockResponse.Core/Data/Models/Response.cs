@@ -2,11 +2,13 @@ using System.Collections.Generic;
 
 using MongoDB.Bson;
 
-namespace MockResponse.Api.Database.MongoDb
+namespace MockResponse.Core.Data.Models
 {
     public class Response
     {
         public ObjectId Id { get; set; }
+
+        public ObjectId Account { get; set; }
 
         public Domain Domain { get; set; }
 

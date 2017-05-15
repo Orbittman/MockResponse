@@ -6,10 +6,9 @@ using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-using MockResponse.Api.Database.MongoDb;
 using MockResponse.Api.Models;
 using MockResponse.Core.Data;
-
+using MockResponse.Core.Data.Models;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
@@ -20,25 +19,33 @@ namespace MockResponse.Api.Controllers
         IMapper _mapper;
 
         private readonly INoSqlClient _dbClient;
+        readonly IRequestContext _requestContext;
 
-        public ApiController(IMapper mapper, INoSqlClient dbClient)
+        public ApiController(IMapper mapper, INoSqlClient dbClient, IRequestContext requestContext)
         {
+            _requestContext = requestContext;
             _mapper = mapper;
             _dbClient = dbClient;
         }
 
         [HttpGet("responses")]
-        public IActionResult GetResources(ResourcesRequest request)
+        public IActionResult GetResources()
         {
-            var responses = _dbClient.Page<Response>(new BsonDocument(), "Responses", 1, 10);
+            var responses = _dbClient.Page<Response>(new BsonDocument(), nameof(Response), 1, 10);
             return Json(responses);
         }
 
         [HttpDelete("responses/{id}")]
         public IActionResult DeleteResources(ResourceRequest request)
         {
-            var filter = Builders<Response>.Filter.Eq(r => r.Id, new ObjectId(request.RequestId));
-            var deletedCount = _dbClient.DeleteOne(filter, "Responses");
+            // Wrap all this in a command object
+            var account = _dbClient.Find(Builders<Account>.Filter.Eq(a => a.ApiKey, _requestContext.ApiKey), nameof(Account)).SingleOrDefault();
+            var filter = Builders<Response>.Filter
+                                           .Eq(r => r.Id, new ObjectId(request.RequestId))
+										   & Builders<Response>.Filter
+										   .Eq(r => r.Account, account.Id);
+            
+            var deletedCount = _dbClient.DeleteOne(filter, nameof(Response));
 
             if (deletedCount > 0)
             {
@@ -56,7 +63,7 @@ namespace MockResponse.Api.Controllers
                 StatusCode = model.StatusCode,
                 Path = model.Path,
                 Content = model.Content,
-                Domain = new Domain() { Host = Request.Host.Host },
+                Domain = new Domain { Host = Request.Host.Host },
                 Headers = model.Headers?.Select(h => new Header { Name = h.Name, Value = h.Value }).ToList()
             };
 
@@ -96,17 +103,8 @@ namespace MockResponse.Api.Controllers
         }
     }
 
-    public class ResourceRequest : BaseRequest
+    public class ResourceRequest
     {
         public string RequestId { get; set; }
-    }
-
-    public class ResourcesRequest : BaseRequest
-    {
-    }
-
-    public class BaseRequest
-    {
-        public string ApiKey { get; set; }
-    }
+    } 
 }

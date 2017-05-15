@@ -12,13 +12,25 @@ namespace MockResponse.Site.ApiClient
             where TResponse : class
         {
             var client = new HttpClient{BaseAddress = new Uri("http://localhost:1234")};
-            var response = await client.GetStreamAsync(request.Path);
+            var response = await client.GetAsync(request.Path);
+            if(!response.IsSuccessStatusCode) 
+            {
+                return default(TResponse);
+            }
+
             var serializer = new DataContractJsonSerializer(typeof(TResponse));
-            return serializer.ReadObject(response) as TResponse;
+            try 
+            { 
+                return serializer.ReadObject(response.Content.ReadAsStreamAsync().Result) as TResponse; 
+            }
+            catch 
+            {
+                return default(TResponse);
+            }
         }
     }
 
-    public class RequestBase
+    public class RequestBase 
     {
         public string Path { get; }
     }

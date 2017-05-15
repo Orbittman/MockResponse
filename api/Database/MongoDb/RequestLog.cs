@@ -6,7 +6,7 @@ namespace MockResponse.Api.Database.MongoDb
 {
     public class RequestLog
     {
-        private string host;
+        //private string host;
 
         public ObjectId DomainId { get; set; }
 
