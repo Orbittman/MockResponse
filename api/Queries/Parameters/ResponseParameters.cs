@@ -1,6 +1,6 @@
-﻿using System;
+﻿using MockResponse.Core.Data.Models;
 
-namespace MockResponse.Api.Queries
+namespace MockResponse.Api.Queries.Parameters
 {
     public class ResponseParameters : IPageable
     {

@@ -4,7 +4,7 @@ using MongoDB.Bson;
 
 namespace MockResponse.Core.Data.Models
 {
-    public class Response
+    public class Response : IKeyedEntity, IPageable
     {
         public ObjectId Id { get; set; }
 
@@ -21,6 +21,8 @@ namespace MockResponse.Core.Data.Models
         public string Path { get; set; }
 
         public string ContentType { get; internal set; }
+
+        public string ApiKey { get; set; }
     }
 
     public class Domain

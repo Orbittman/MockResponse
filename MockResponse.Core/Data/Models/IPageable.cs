@@ -1,4 +1,4 @@
-﻿namespace MockResponse.Api.Queries
+﻿namespace MockResponse.Core.Data.Models
 {
     public interface IPageable
     {

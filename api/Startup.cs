@@ -1,10 +1,13 @@
 using AutoMapper;
 
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using MockResponse.Api.Filters;
+using MockResponse.Api.Models;
+using MockResponse.Api.Queries;
 using MockResponse.Core.Data;
 using MockResponse.Core.Utilities;
 
@@ -23,24 +26,34 @@ namespace MockResponse.Api
         {
             services.AddMvc(options => { options.RespectBrowserAcceptHeader = true; });
 
-            //Mapper.Initialize(c => { });
-            //services.AddSingleton(Mapper.Configuration);
-            //services.AddScoped<IMapper>(sp => new Mapper(sp.GetRequiredService<IConfigurationProvider>(), sp.GetService));
-            //services.AddAutoMapper();
+            Mapper.Initialize(c => { });
+            services.AddSingleton(Mapper.Configuration);
+            services.AddScoped<IMapper>(sp => new Mapper(sp.GetRequiredService<IConfigurationProvider>(), sp.GetService));
+            services.AddAutoMapper();
+
+			services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+			services.AddScoped<IRequestContext, RequestContext>();
+            services.AddTransient<IDateTimeProvider, DateTimeProvider>();
+            services.AddTransient<IResponseQuery, ResponseQuery>();
 
             services.AddScoped<ThrottlingFilter>();
-            services.AddTransient<IDateTimeProvider, DateTimeProvider>();
             services.Add(new ServiceDescriptor(typeof(IThrottler), typeof(Throttler), ServiceLifetime.Singleton));
 
-			services.AddScoped<IRequestContext, RequestContext>();
-			services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton<INoSqlClient>(client => new MongoDbClient("mongodb://localhost:27017"));
 
 			services.AddScoped<AuthorisationFilterAttribute>();
         }
 
-        public void Configure(IApplicationBuilder app)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                app.UseExceptionHandler("/error");
+            }
             app.UseMvc();
         }
     }

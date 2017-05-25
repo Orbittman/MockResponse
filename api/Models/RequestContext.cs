@@ -1,19 +1,17 @@
 ﻿using Microsoft.AspNetCore.Http;
 
-namespace MockResponse.Api
+namespace MockResponse.Api.Models
 {
     public class RequestContext : IRequestContext
     {
-        const string apiKeyHeader = "x-apikey";
+        const string _apiKeyHeader = "x-apikey";
         string _apiKey;
-        IHttpContextAccessor _httpContextAccessor;
+        readonly IHttpContextAccessor _httpContextAccessor;
 
-        internal RequestContext(IHttpContextAccessor httpContextAccessor){
+        public RequestContext(IHttpContextAccessor httpContextAccessor){
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public string ApiKey {get{
-                return _apiKey ?? (_apiKey = _httpContextAccessor.HttpContext.Request.Headers[apiKeyHeader]);
-            }}
+        public string ApiKey => _apiKey ?? (_apiKey = _httpContextAccessor.HttpContext.Request.Headers[_apiKeyHeader]);
     }
 } 

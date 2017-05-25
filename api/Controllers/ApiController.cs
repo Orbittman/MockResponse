@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using MockResponse.Api.Filters;
 using MockResponse.Api.Models;
 using MockResponse.Api.Queries;
+using MockResponse.Api.Queries.Parameters;
 using MockResponse.Core.Data;
 using MockResponse.Core.Data.Models;
 using MongoDB.Bson;
@@ -39,7 +40,7 @@ namespace MockResponse.Api.Controllers
         [ServiceFilter(typeof(AuthorisationFilterAttribute))]
         public IActionResult GetResponses(int page = 1, int pageSize = 10)
         {
-            var responses = _responseQuery.Execute(new ResponseParameters { Page = page, PageSize = pageSize }); // Page this
+            var responses = _responseQuery.Execute(new ResponseParameters { Page = page, PageSize = pageSize });
             return Json(responses);
         }
 
