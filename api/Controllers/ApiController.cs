@@ -5,8 +5,9 @@ using AutoMapper;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-
+using MockResponse.Api.Filters;
 using MockResponse.Api.Models;
+using MockResponse.Api.Queries;
 using MockResponse.Core.Data;
 using MockResponse.Core.Data.Models;
 using MongoDB.Bson;
@@ -20,23 +21,30 @@ namespace MockResponse.Api.Controllers
 
         private readonly INoSqlClient _dbClient;
         readonly IRequestContext _requestContext;
+        readonly IResponseQuery _responseQuery;
 
-        public ApiController(IMapper mapper, INoSqlClient dbClient, IRequestContext requestContext)
+        public ApiController(
+            IMapper mapper, 
+            INoSqlClient dbClient, 
+            IRequestContext requestContext,
+            IResponseQuery responseQuery)
         {
+            _responseQuery = responseQuery;
             _requestContext = requestContext;
             _mapper = mapper;
             _dbClient = dbClient;
         }
 
         [HttpGet("responses")]
-        public IActionResult GetResources()
+        [ServiceFilter(typeof(AuthorisationFilterAttribute))]
+        public IActionResult GetResponses(int page = 1, int pageSize = 10)
         {
-            var responses = _dbClient.Page<Response>(new BsonDocument(), nameof(Response), 1, 10);
+            var responses = _responseQuery.Execute(new ResponseParameters { Page = page, PageSize = pageSize }); // Page this
             return Json(responses);
         }
 
         [HttpDelete("responses/{id}")]
-        public IActionResult DeleteResources(ResourceRequest request)
+        public IActionResult DeleteResponse(ResourceRequest request)
         {
             // Wrap all this in a command object
             var account = _dbClient.Find(Builders<Account>.Filter.Eq(a => a.ApiKey, _requestContext.ApiKey), nameof(Account)).SingleOrDefault();
@@ -56,7 +64,7 @@ namespace MockResponse.Api.Controllers
         }
 
         [HttpPost("responses")]
-        public IActionResult PostResponses([FromBody] ResponseModel model)
+        public IActionResult PostResponse([FromBody] ResponseModel model)
         {
             var response = new Response
             {

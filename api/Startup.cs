@@ -23,10 +23,10 @@ namespace MockResponse.Api
         {
             services.AddMvc(options => { options.RespectBrowserAcceptHeader = true; });
 
-            Mapper.Initialize(c => { });
-            services.AddSingleton(Mapper.Configuration);
-            services.AddScoped<IMapper>(sp => new Mapper(sp.GetRequiredService<IConfigurationProvider>(), sp.GetService));
-            services.AddAutoMapper();
+            //Mapper.Initialize(c => { });
+            //services.AddSingleton(Mapper.Configuration);
+            //services.AddScoped<IMapper>(sp => new Mapper(sp.GetRequiredService<IConfigurationProvider>(), sp.GetService));
+            //services.AddAutoMapper();
 
             services.AddScoped<ThrottlingFilter>();
             services.AddTransient<IDateTimeProvider, DateTimeProvider>();
@@ -35,6 +35,8 @@ namespace MockResponse.Api
 			services.AddScoped<IRequestContext, RequestContext>();
 			services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton<INoSqlClient>(client => new MongoDbClient("mongodb://localhost:27017"));
+
+			services.AddScoped<AuthorisationFilterAttribute>();
         }
 
         public void Configure(IApplicationBuilder app)

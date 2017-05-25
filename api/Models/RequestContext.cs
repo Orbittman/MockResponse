@@ -12,7 +12,7 @@ namespace MockResponse.Api
             _httpContextAccessor = httpContextAccessor;
         }
 
-        internal string ApiKey {get{
+        public string ApiKey {get{
                 return _apiKey ?? (_apiKey = _httpContextAccessor.HttpContext.Request.Headers[apiKeyHeader]);
             }}
     }
