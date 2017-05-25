@@ -5,6 +5,9 @@ using AutoMapper;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+
+using MockResponse.Api.Commands;
+using MockResponse.Api.Commands.Parameters;
 using MockResponse.Api.Filters;
 using MockResponse.Api.Models;
 using MockResponse.Api.Queries;
@@ -18,19 +21,21 @@ namespace MockResponse.Api.Controllers
 {
     public class ApiController : Controller
     {
-        IMapper _mapper;
-
+        private readonly IMapper _mapper;
         private readonly INoSqlClient _dbClient;
-        readonly IRequestContext _requestContext;
-        readonly IResponseQuery _responseQuery;
+        private readonly IRequestContext _requestContext;
+        private readonly IResponseQuery _responseQuery;
+        private readonly IResponseCommand _responseCommand;
 
         public ApiController(
             IMapper mapper, 
             INoSqlClient dbClient, 
             IRequestContext requestContext,
-            IResponseQuery responseQuery)
+            IResponseQuery responseQuery,
+            IResponseCommand responseCommand)
         {
             _responseQuery = responseQuery;
+            _responseCommand = responseCommand;
             _requestContext = requestContext;
             _mapper = mapper;
             _dbClient = dbClient;
@@ -45,6 +50,7 @@ namespace MockResponse.Api.Controllers
         }
 
         [HttpDelete("responses/{id}")]
+        [ServiceFilter(typeof(AuthorisationFilterAttribute))]
         public IActionResult DeleteResponse(ResourceRequest request)
         {
             // Wrap all this in a command object
@@ -65,18 +71,10 @@ namespace MockResponse.Api.Controllers
         }
 
         [HttpPost("responses")]
+        [ServiceFilter(typeof(AuthorisationFilterAttribute))]
         public IActionResult PostResponse([FromBody] ResponseModel model)
         {
-            var response = new Response
-            {
-                StatusCode = model.StatusCode,
-                Path = model.Path,
-                Content = model.Content,
-                Domain = new Domain { Host = Request.Host.Host },
-                Headers = model.Headers?.Select(h => new Header { Name = h.Name, Value = h.Value }).ToList()
-            };
-
-            _dbClient.InsertOne(response, "Responses");
+            _responseCommand.Execute(_mapper.Map<ResponsePostParameters>(model));
             return Json(model);
         }
 

@@ -23,17 +23,16 @@ namespace MockResponse.Api.Queries
 		{
 			var filter = DefineFilter(request);
 
-			if (typeof(IKeyedEntity).GetTypeInfo().IsAssignableFrom(typeof(TResponse).GetTypeInfo()))
+			if (request is IKeyedEntity)
 			{
 				filter &= Builders<TResponse>.Filter.Eq(f => ((IKeyedEntity)f).ApiKey, _requestContext.ApiKey);
 			}
 
-		    if (typeof(IPageable).GetTypeInfo().IsAssignableFrom(typeof(TResponse).GetTypeInfo()))
-            {
-                return BuildResponse(_dbClient.Page(filter, typeof(TResponse).Name, ((IPageable)request).Page, ((IPageable)request).PageSize));
-            }
-
-			return BuildResponse(_dbClient.Find(filter, typeof(TResponse).Name));
+		    var pageable = request as IPageable;
+		    return BuildResponse(
+		        pageable != null
+		            ? _dbClient.Page(filter, typeof(TResponse).Name, pageable.Page, pageable.PageSize)
+		            : _dbClient.Find(filter, typeof(TResponse).Name));
 		}
 
 		protected abstract FilterDefinition<TResponse> DefineFilter(TParameters request);
