@@ -13,5 +13,9 @@ namespace MockResponse.Api.Models
         }
 
         public string ApiKey => _apiKey ?? (_apiKey = _httpContextAccessor.HttpContext.Request.Headers[_apiKeyHeader]);
+
+        public string PrimaryIdentity { get; set; }
+
+        public string AccountId { get; set; }
     }
 } 

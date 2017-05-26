@@ -9,7 +9,7 @@ using MongoDB.Driver;
 
 namespace MockResponse.Api.Queries
 {
-    public class ResponseQuery : BaseQuery<ResponseParameters, Response>, IResponseQuery
+    public class ResponseQuery : ApiKeyedQuery<ResponseParameters, Response>, IResponseQuery
     {
         public ResponseQuery(IRequestContext requestContext, INoSqlClient dbClient) : base(requestContext, dbClient)
         {

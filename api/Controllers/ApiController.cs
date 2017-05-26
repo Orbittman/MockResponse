@@ -1,5 +1,4 @@
 using System.Linq;
-using System.Threading.Tasks;
 
 using AutoMapper;
 
@@ -45,8 +44,8 @@ namespace MockResponse.Api.Controllers
         [ServiceFilter(typeof(AuthorisationFilterAttribute))]
         public IActionResult GetResponses(int page = 1, int pageSize = 10)
         {
-            var responses = _responseQuery.Execute(new ResponseParameters { Page = page, PageSize = pageSize });
-            return Json(responses);
+            var response = _responseQuery.Execute(new ResponseParameters { Page = page, PageSize = pageSize });
+            return Json(_mapper.Map<ResponseModel>(response));
         }
 
         [HttpDelete("responses/{id}")]
@@ -54,11 +53,10 @@ namespace MockResponse.Api.Controllers
         public IActionResult DeleteResponse(ResourceRequest request)
         {
             // Wrap all this in a command object
-            var account = _dbClient.Find(Builders<Account>.Filter.Eq(a => a.ApiKey, _requestContext.ApiKey), nameof(Account)).SingleOrDefault();
             var filter = Builders<Response>.Filter
                                            .Eq(r => r.Id, new ObjectId(request.RequestId))
 										   & Builders<Response>.Filter
-										   .Eq(r => r.Account, account.Id);
+										   .Eq(r => r.Account, new ObjectId(_requestContext.AccountId));
             
             var deletedCount = _dbClient.DeleteOne(filter, nameof(Response));
 
@@ -92,7 +90,7 @@ namespace MockResponse.Api.Controllers
             else
             {
                 var filter = Builders<Response>.Filter.Eq(r => r.Path, $"{path}");
-                response = _dbClient.Find(filter, "Responses").FirstOrDefault();
+                response = _dbClient.Find(filter, nameof(Response)).FirstOrDefault();
                 if (response != null)
                 {
                     //if (response.Domains.Any(d => d.Host == Request.Host.Host))
@@ -106,7 +104,7 @@ namespace MockResponse.Api.Controllers
                 }
             }
 
-            Task.WaitAll(HttpContext.Response.WriteAsync(content));
+            HttpContext.Response.WriteAsync(content);
         }
     }
 

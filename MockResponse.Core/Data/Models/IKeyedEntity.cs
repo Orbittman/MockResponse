@@ -1,7 +1,9 @@
-﻿namespace MockResponse.Core.Data.Models
+﻿using MongoDB.Bson;
+
+namespace MockResponse.Core.Data.Models
 {
-    public interface IKeyedEntity
+    public interface IAccountEntity
 	{
-		string ApiKey { get; set; }
-	}
+	    ObjectId Account { get; set; }
+    }
  }

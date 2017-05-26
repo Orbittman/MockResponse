@@ -36,6 +36,8 @@ namespace MockResponse.Api
             services.AddTransient<IDateTimeProvider, DateTimeProvider>();
 
             services.AddTransient<IResponseQuery, ResponseQuery>();
+            services.AddTransient<IAccountQuery, AccountQuery>();
+
             services.AddTransient<IResponseCommand, ResponseCommand>();
 
             services.AddScoped<ThrottlingFilter>();
@@ -64,8 +66,9 @@ namespace MockResponse.Api
     {
         public MappingProfile()
         {
-            CreateMap<ResponseModel, ResponsePostParameters>(); ;
-            CreateMap<ResponsePostParameters, Response>(); ;
+            CreateMap<ResponseModel, ResponsePostParameters>();
+            CreateMap<ResponsePostParameters, Response>();
+            CreateMap<Response, ResponseModel>();
         }
     }
 }

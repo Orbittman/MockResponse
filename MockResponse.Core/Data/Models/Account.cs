@@ -8,6 +8,6 @@ namespace MockResponse.Core.Data.Models
 
         public string PrimaryIdentity { get; set; }
 
-        public string ApiKey { get; set; }
+        public string[] ApiKeys { get; set; }
     }
 }

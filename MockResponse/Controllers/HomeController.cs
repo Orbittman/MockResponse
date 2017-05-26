@@ -84,7 +84,9 @@ namespace MockResponse.Site.Controllers
                                    .FirstOrDefault();
             if (account == null)
             {
-                _dbClient.InsertOne(new Account { PrimaryIdentity = loginRequest.AuthIdentity, ApiKey = Guid.NewGuid().ToString() }, nameof(Account));
+                _dbClient.InsertOne(
+                    new Account { PrimaryIdentity = loginRequest.AuthIdentity, ApiKeys = new[] { Guid.NewGuid().ToString() } },
+                    nameof(Account));
             }
 
             RequestContext.SaveUserSession(

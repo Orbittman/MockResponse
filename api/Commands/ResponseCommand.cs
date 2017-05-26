@@ -5,6 +5,8 @@ using MockResponse.Api.Commands.Parameters;
 using MockResponse.Core.Data;
 using MockResponse.Core.Data.Models;
 
+using MongoDB.Bson;
+
 namespace MockResponse.Api.Commands
 {
     public class ResponseCommand : IResponseCommand
@@ -23,13 +25,14 @@ namespace MockResponse.Api.Commands
         public Response Execute(ResponsePostParameters request)
         {
             var response = _mapper.Map<Response>(request);
-            if(string.IsNullOrEmpty(response.Path))
+            if(response.Domain == null)
             {
-                response.Path = Guid.NewGuid().ToString();
+                response.Domain = new Domain { Host = $"{Guid.NewGuid()}.api.mockresponse.net" };
             }
-            response.ApiKey = _requestContext.ApiKey;
 
+            response.Account = new ObjectId(_requestContext.ApiKey);
             _dbClient.InsertOne(response, nameof(response));
+
             return response;
         }
     }
