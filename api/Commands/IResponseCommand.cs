@@ -4,7 +4,7 @@ using MockResponse.Core.Data.Models;
 
 namespace MockResponse.Api.Commands
 {
-    public interface IResponseCommand : ICommand<ResponsePostParameters>
+    public interface IResponseCommand : ICommand<Response, ResponsePostParameters>
     {
     }
 }

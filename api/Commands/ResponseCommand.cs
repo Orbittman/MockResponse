@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System;
+using AutoMapper;
 
 using MockResponse.Api.Commands.Parameters;
 using MockResponse.Core.Data;
@@ -19,12 +20,17 @@ namespace MockResponse.Api.Commands
             _mapper = mapper;
         }
 
-        public void Execute(ResponsePostParameters request)
+        public Response Execute(ResponsePostParameters request)
         {
             var response = _mapper.Map<Response>(request);
+            if(string.IsNullOrEmpty(response.Path))
+            {
+                response.Path = Guid.NewGuid().ToString();
+            }
             response.ApiKey = _requestContext.ApiKey;
 
             _dbClient.InsertOne(response, nameof(response));
+            return response;
         }
     }
 }
