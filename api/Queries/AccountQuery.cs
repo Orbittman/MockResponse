@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using MockResponse.Api.Queries.Parameters;
@@ -21,9 +22,10 @@ namespace MockResponse.Api.Queries
             return Builders<Account>.Filter.AnyEq(f => f.ApiKeys, request.ApiKey);
         }
 
-        protected override Account BuildResponse(IEnumerable<Account> dbResponse)
+        public Account Execute(AccountParmeters request)
         {
-            return dbResponse.SingleOrDefault();
+			var result = BaseExecute(request);
+			return result.SingleOrDefault();
         }
     }
 }

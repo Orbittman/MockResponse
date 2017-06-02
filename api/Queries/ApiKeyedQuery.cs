@@ -18,7 +18,7 @@ namespace MockResponse.Api.Queries
             _requestContext = requestContext;
         }
 
-        public override FilterDefinition<TResponse> ProtectedExecute(TParameters request, FilterDefinition<TResponse> filter)
+        protected override FilterDefinition<TResponse> ProtectedExecute(TParameters request, FilterDefinition<TResponse> filter)
         {
             filter &= Builders<TResponse>.Filter.Eq(f => f.Account, new ObjectId(_requestContext.AccountId));
             return base.ProtectedExecute(request, filter);

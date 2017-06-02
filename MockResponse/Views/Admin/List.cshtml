@@ -1,0 +1,6 @@
+@model MockResponse.Core.Models.ResponsesModel
+
+@foreach(var response in Model.Responses)
+{
+    <li>@response.Content</li>
+}

@@ -5,12 +5,13 @@
 
 @if (Model.Authenticated)
 {
-    <span>Welcome</span> 
+    <span>Welcome @Model.RequestContext.Session.Name</span>
+    <a href="/logout">logout</a>
 }
 else
 {
     <span>Login form</span>
-    using (Html.BeginForm("LoginRequest", "Home", FormMethod.Post))
+    using (Html.BeginForm("LoginRequest", "Auth", FormMethod.Post))
     {
         <fieldset>
             <input type="text" placeholder="Email or phone number" maxlength="100" id="authIdentity" name="authIdentity" />

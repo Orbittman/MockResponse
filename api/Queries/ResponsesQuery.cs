@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 
 using MockResponse.Api.Queries.Parameters;
 using MockResponse.Core.Data;
@@ -9,9 +8,9 @@ using MongoDB.Driver;
 
 namespace MockResponse.Api.Queries
 {
-    public class ResponseQuery : ApiKeyedQuery<ResponseParameters, Response>, IResponseQuery
+    public class ResponsesQuery : ApiKeyedQuery<ResponseParameters, Response>, IResponseQuery
     {
-        public ResponseQuery(IRequestContext requestContext, INoSqlClient dbClient) : base(requestContext, dbClient)
+        public ResponsesQuery(IRequestContext requestContext, INoSqlClient dbClient) : base(requestContext, dbClient)
         {
         }
 
@@ -20,9 +19,10 @@ namespace MockResponse.Api.Queries
             return new BsonDocument();
         }
 
-        protected override Response BuildResponse(IEnumerable<Response> dbResponse)
+        IEnumerable<Response> IPageableQuery<ResponseParameters, Response>.Execute(ResponseParameters request)
         {
-            return dbResponse.FirstOrDefault();
+			var result = BaseExecute(request);
+			return result;
         }
     }
 }

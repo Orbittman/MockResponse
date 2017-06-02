@@ -1,22 +1,30 @@
 using System;
-
+using System.Linq;
 using Microsoft.AspNetCore.Http;
 
 using MockResponse.Core.Caching;
-using MockResponse.Site.Controllers;
+using MockResponse.Core.Data;
+using MockResponse.Core.Data.Models;
+using MongoDB.Driver;
 
 namespace MockResponse.Site.Models
 {
     public class SiteRequestContext : ISiteRequestContext
     {
-        private const string _cacheKey = "mr-sid";
-        private readonly ICacheClient _cacheClient;
-        private readonly IHttpContextAccessor _httpContextAccessor;
+        const string _cacheKey = "mr-sid";
+        readonly ICacheClient _cacheClient;
+        readonly IHttpContextAccessor _httpContextAccessor;
 
-        private UserSession _userSession;
+        UserSession _userSession;
+        string _apiKey;
+        readonly INoSqlClient _dbClient;
 
-        public SiteRequestContext(ICacheClient cacheClient, IHttpContextAccessor httpContextAccessor)
+        public SiteRequestContext(
+            ICacheClient cacheClient, 
+            IHttpContextAccessor httpContextAccessor,
+            INoSqlClient dbClient)
         {
+            _dbClient = dbClient;
             _cacheClient = cacheClient;
             _httpContextAccessor = httpContextAccessor;
         }
@@ -31,14 +39,30 @@ namespace MockResponse.Site.Models
                 sessionKey = Guid.NewGuid().ToString();
                 _httpContextAccessor.HttpContext.Response.Cookies.Append(_cacheKey, sessionKey);
             }
+
             _cacheClient.Set(sessionKey, session);
         }
 
         public bool Authenticated => Session.Authenticated;
 
+        public string ApiKey => _apiKey ?? (_apiKey = LoadApiKey());
+
+        private string LoadApiKey()
+        {
+			var account = _dbClient.Find(Builders<Account>.Filter.Eq(r => r.PrimaryIdentity, Session.Identity), nameof(Account))
+								   .FirstOrDefault();
+            return account?.ApiKeys.FirstOrDefault();
+        }
+
         private UserSession LoadSession()
         {
             return _cacheClient.Get<UserSession>(_httpContextAccessor.HttpContext.Request.Cookies[_cacheKey]) ?? new UserSession();
+        }
+
+        public void ClearSession()
+        {
+            _cacheClient.Delete(_httpContextAccessor.HttpContext.Request.Cookies[_cacheKey]);
+            _httpContextAccessor.HttpContext.Response.Cookies.Delete(_cacheKey);
         }
     }
 }

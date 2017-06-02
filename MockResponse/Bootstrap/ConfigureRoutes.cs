@@ -1,5 +1,3 @@
-using System;
-
 using Microsoft.AspNetCore.Routing;
 
 using MockResponse.Site.Controllers;
@@ -11,8 +9,9 @@ namespace MockResponse.Site.Bootstrap
     {
         internal static void Configure(IRouteBuilder routes)
         {
-            routes.AddRoute<HomeController>("PostLogin", "login", c => c.LoginRequest(null));
-            routes.AddRoute<HomeController>("GetLogin", "login/{token}", c => c.Login(null));
+			routes.AddRoute<AuthController>("PostLogin", "login", c => c.LoginRequest(null));
+			routes.AddRoute<AuthController>("GetLogin", "login/{token}", c => c.Login(null));
+			routes.AddRoute<AuthController>("Logout", "logout", c => c.Logout());
             routes.AddRoute<HomeController>("Default", string.Empty, c => c.Index());
         }
     }

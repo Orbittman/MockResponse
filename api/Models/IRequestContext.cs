@@ -1,6 +1,4 @@
-﻿﻿using MongoDB.Bson;
-
-namespace MockResponse.Api
+﻿namespace MockResponse.Api
 {
     public interface IRequestContext
     {

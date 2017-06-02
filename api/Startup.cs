@@ -13,6 +13,7 @@ using MockResponse.Api.Models;
 using MockResponse.Api.Queries;
 using MockResponse.Core.Data;
 using MockResponse.Core.Data.Models;
+using MockResponse.Core.Models;
 using MockResponse.Core.Utilities;
 
 namespace MockResponse.Api
@@ -35,10 +36,11 @@ namespace MockResponse.Api
 			services.AddScoped<IRequestContext, RequestContext>();
             services.AddTransient<IDateTimeProvider, DateTimeProvider>();
 
-            services.AddTransient<IResponseQuery, ResponseQuery>();
+            services.AddTransient<IResponseQuery, ResponsesQuery>();
             services.AddTransient<IAccountQuery, AccountQuery>();
 
-            services.AddTransient<IResponseCommand, ResponseCommand>();
+			services.AddTransient<IResponseCommand, ResponseCommand>();
+			services.AddTransient<IResponseDeleteCommand, ResponseDeleteCommand>();
 
             services.AddScoped<ThrottlingFilter>();
             services.Add(new ServiceDescriptor(typeof(IThrottler), typeof(Throttler), ServiceLifetime.Singleton));

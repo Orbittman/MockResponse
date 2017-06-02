@@ -1,15 +1,25 @@
 using Microsoft.AspNetCore.Mvc;
-
+using MockResponse.Core.Models;
+using MockResponse.Site.ApiClient;
 using MockResponse.Site.Models;
 
 namespace MockResponse.Site.Controllers
 {
     public class AdminController : Controller
     {
+        readonly IRestClient _apiClient;
+
+        public AdminController(IRestClient apiClient)
+        {
+            _apiClient = apiClient;
+        }
+
         [HttpGet("list")]
         public ActionResult List()
         {
-            return View();
+            var responses = _apiClient.GetAsync<ResponsesRequest, ResponsesModel>(new ResponsesRequest());
+            var model = responses.Result;
+            return View(model);
         }
 
         [HttpGet("{responseId}/edit")]

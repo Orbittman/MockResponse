@@ -9,5 +9,7 @@ namespace MockResponse.Core.Caching
         void Set<TValue>(string key, TValue value);
 
         void Set<TValue>(string key, TValue value, TimeSpan duration);
+
+        void Delete(string key);
     }
 }

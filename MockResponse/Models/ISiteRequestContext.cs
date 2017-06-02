@@ -1,4 +1,4 @@
-using MockResponse.Site.Controllers;
+using System.Net;
 
 namespace MockResponse.Site.Models
 {
@@ -9,5 +9,9 @@ namespace MockResponse.Site.Models
         bool Authenticated { get; }
 
         UserSession Session { get; }
+
+        string ApiKey { get; }
+
+        void ClearSession();
     }
 }

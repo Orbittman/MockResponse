@@ -6,7 +6,7 @@ using MongoDB.Driver;
 
 namespace MockResponse.Api.Queries
 {
-    public abstract class BaseQuery<TParameters, TResponse> : IQuery<TParameters, TResponse>
+    public abstract class BaseQuery<TParameters, TResponse>
 	{
 		readonly INoSqlClient _dbClient;
 
@@ -16,26 +16,22 @@ namespace MockResponse.Api.Queries
 			_dbClient = dbClient;
 		}
 
-		public  TResponse Execute(TParameters request)
+		protected IEnumerable<TResponse> BaseExecute(TParameters request)
 		{
 			var filter = DefineFilter(request);
 		    filter = ProtectedExecute(request, filter);
 
             var pageable = request as IPageable;
-		    return BuildResponse(
-		        pageable != null
+		    return pageable != null
 		            ? _dbClient.Page(filter, typeof(TResponse).Name, pageable.Page, pageable.PageSize)
-		            : _dbClient.Find(filter, typeof(TResponse).Name));
+		            : _dbClient.Find(filter, typeof(TResponse).Name);
 		}
 
-	    public virtual FilterDefinition<TResponse> ProtectedExecute(TParameters request, FilterDefinition<TResponse> filter)
+	    protected virtual FilterDefinition<TResponse> ProtectedExecute(TParameters request, FilterDefinition<TResponse> filter)
 	    {
 	        return filter;
 	    }
 
-
 	    protected abstract FilterDefinition<TResponse> DefineFilter(TParameters request);
-
-		protected abstract TResponse BuildResponse(IEnumerable<TResponse> dbResponse);
 	}
 }

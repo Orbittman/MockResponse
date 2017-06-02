@@ -9,4 +9,9 @@
     <PackageReference Include="ServiceStack.Redis.Core" Version="1.0.41" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Requests\" />
+    <Folder Include="Responses\" />
+    <Folder Include="Models\" />
+  </ItemGroup>
 </Project>

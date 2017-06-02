@@ -9,5 +9,9 @@ namespace MockResponse.Site.Models
         public DateTime AuthenticatedAt { get; set; }
 
         public string AuthenticationToken { get; set; }
+
+        public string Name { get; set; }
+
+        public string Identity { get; set; }
     }
 }

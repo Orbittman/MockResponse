@@ -13,6 +13,11 @@ namespace MockResponse.Core.Caching
             _cacheClient = cacheClient;
         }
 
+        public void Delete(string key)
+        {
+            _cacheClient.Remove(key);
+        }
+
         public TValue Get<TValue>(string key)
         {
             if (!string.IsNullOrEmpty(key))

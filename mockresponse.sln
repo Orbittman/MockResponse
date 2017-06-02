@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26403.3
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MockResponse.Api", "api\MockResponse.Api.csproj", "{7C52524F-712E-4884-ACE4-D57AB51A78EA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MockResponse.Api", "api\MockResponse.Api.csproj", "{7C52524F-712E-4884-ACE4-D57AB51A78EA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MockResponse.Site", "MockResponse\MockResponse.Site.csproj", "{58296219-BCA8-489B-A3F3-0B46B8C618DE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MockResponse.Site", "MockResponse\MockResponse.Site.csproj", "{58296219-BCA8-489B-A3F3-0B46B8C618DE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{74D1F1B8-0CFC-4D62-A655-D5D684AD4153}"
 	ProjectSection(SolutionItems) = preProject

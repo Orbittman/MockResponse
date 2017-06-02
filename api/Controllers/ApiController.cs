@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 
 using AutoMapper;
@@ -13,6 +14,7 @@ using MockResponse.Api.Queries;
 using MockResponse.Api.Queries.Parameters;
 using MockResponse.Core.Data;
 using MockResponse.Core.Data.Models;
+using MockResponse.Core.Models;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
@@ -20,19 +22,22 @@ namespace MockResponse.Api.Controllers
 {
     public class ApiController : Controller
     {
-        private readonly IMapper _mapper;
-        private readonly INoSqlClient _dbClient;
-        private readonly IRequestContext _requestContext;
-        private readonly IResponseQuery _responseQuery;
-        private readonly IResponseCommand _responseCommand;
+        readonly IMapper _mapper;
+        readonly INoSqlClient _dbClient;
+        readonly IRequestContext _requestContext;
+        readonly IResponseQuery _responseQuery;
+        readonly IResponseCommand _responseCommand;
+        readonly IResponseDeleteCommand _responseDeleteCommand;
 
         public ApiController(
             IMapper mapper, 
             INoSqlClient dbClient, 
             IRequestContext requestContext,
-            IResponseQuery responseQuery,
-            IResponseCommand responseCommand)
+			IResponseQuery responseQuery,
+			IResponseCommand responseCommand,
+			IResponseDeleteCommand responseDeleteCommand)
         {
+            _responseDeleteCommand = responseDeleteCommand;
             _responseQuery = responseQuery;
             _responseCommand = responseCommand;
             _requestContext = requestContext;
@@ -45,20 +50,15 @@ namespace MockResponse.Api.Controllers
         public IActionResult GetResponses(int page = 1, int pageSize = 10)
         {
             var response = _responseQuery.Execute(new ResponseParameters { Page = page, PageSize = pageSize });
-            return Json(_mapper.Map<ResponseModel>(response));
+            var model = new ResponsesModel { Responses = response.Select(r => _mapper.Map<ResponseModel>(r)).ToList(), Name = "Timmy time" };
+            return Json(model);
         }
 
         [HttpDelete("responses/{id}")]
         [ServiceFilter(typeof(AuthorisationFilterAttribute))]
-        public IActionResult DeleteResponse(ResourceRequest request)
+        public IActionResult DeleteResponse(ResponseRequest request)
         {
-            // Wrap all this in a command object
-            var filter = Builders<Response>.Filter
-                                           .Eq(r => r.Id, new ObjectId(request.RequestId))
-										   & Builders<Response>.Filter
-										   .Eq(r => r.Account, new ObjectId(_requestContext.AccountId));
-            
-            var deletedCount = _dbClient.DeleteOne(filter, nameof(Response));
+            var deletedCount = _responseDeleteCommand.Execute(new ResponseDeleteParameters { RequestId = request.RequestId });
 
             if (deletedCount > 0)
             {
@@ -107,9 +107,4 @@ namespace MockResponse.Api.Controllers
             HttpContext.Response.WriteAsync(content);
         }
     }
-
-    public class ResourceRequest
-    {
-        public string RequestId { get; set; }
-    } 
 }

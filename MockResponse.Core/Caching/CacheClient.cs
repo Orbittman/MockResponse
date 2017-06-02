@@ -7,6 +7,11 @@ namespace MockResponse.Core.Caching
     {
         private readonly Dictionary<string, object> _cache = new Dictionary<string, object>();
 
+        public void Delete(string key)
+        {
+            _cache.Remove(key);
+        }
+
         public TValue Get<TValue>(string key)
         {
             try

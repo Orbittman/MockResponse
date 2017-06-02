@@ -9,7 +9,7 @@ namespace MockResponse.Api.Filters
     public class AuthorisationFilterAttribute : ActionFilterAttribute
     {
         readonly IRequestContext _requestContext;
-        private readonly IAccountQuery _accountQuery;
+        readonly IAccountQuery _accountQuery;
 
         public AuthorisationFilterAttribute (IRequestContext requestContext, IAccountQuery accountQuery)
         {
