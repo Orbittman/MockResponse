@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Text;
 
 using AutoMapper;
 
@@ -85,7 +86,7 @@ namespace MockResponse.Api.Controllers
             if (path == string.Empty)
             {
                 HttpContext.Response.StatusCode = 200;
-                response.Content = "Mock Response - OK";
+                content = "Mock Response - OK";
             }
             else
             {
@@ -95,16 +96,17 @@ namespace MockResponse.Api.Controllers
                 {
                     //if (response.Domains.Any(d => d.Host == Request.Host.Host))
                     //{
-                    content = response.Content;
+                    var content2 = Encoding.UTF8.GetBytes(response.Content);
                     HttpContext.Response.StatusCode = response.StatusCode;
-                    HttpContext.Response.ContentType = response.ContentType;
-                    HttpContext.Response.Headers.Clear();
-                    response.Headers?.ForEach(h => HttpContext.Response.Headers.Append(h.Name, h.Value));
+                    Response.Body.Write(content2, 0, content2.Length);
+                    //HttpContext.Response.ContentType = response.ContentType;
+                    //HttpContext.Response.Headers.Clear();
+                    //response.Headers?.ForEach(h => HttpContext.Response.Headers.Append(h.Name, h.Value));
                     //}
                 }
             }
 
-            HttpContext.Response.WriteAsync(content);
+            //await HttpContext.Response.Body.WriteAsync(Encoding.UTF8.GetBytes(content), 0, );
         }
     }
 }

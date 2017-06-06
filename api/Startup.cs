@@ -24,7 +24,7 @@ namespace MockResponse.Api
 
         //public Startup(IHostingEnvironment environment)
         //{
-        //    _environment = environment;
+        //    _environment = environment;w
         //}
 
         public void ConfigureServices(IServiceCollection services)
