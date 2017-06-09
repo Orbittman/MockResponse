@@ -36,10 +36,11 @@ namespace MockResponse.Api
 			services.AddScoped<IRequestContext, RequestContext>();
             services.AddTransient<IDateTimeProvider, DateTimeProvider>();
 
-            services.AddTransient<IResponseQuery, ResponsesQuery>();
+            services.AddTransient<IResponseQuery, ResponseQuery>();
+            services.AddTransient<IResponsesQuery, ResponsesQuery>();
             services.AddTransient<IAccountQuery, AccountQuery>();
 
-			services.AddTransient<IResponseCommand, ResponseCommand>();
+			services.AddTransient<IPostResponseCommand, PostResponseCommand>();
 			services.AddTransient<IResponseDeleteCommand, ResponseDeleteCommand>();
 
             services.AddScoped<ThrottlingFilter>();

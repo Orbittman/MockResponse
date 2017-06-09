@@ -2,6 +2,6 @@
 {
     public class ResponseDeleteParameters
     {
-        public string RequestId { get; set; }
+        public string ResponseId { get; set; }
     }
 }

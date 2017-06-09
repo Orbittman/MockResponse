@@ -1,6 +1,6 @@
 ﻿namespace MockResponse.Api.Queries
 {
-    public interface IQuery<TRequest, TResponse>
+    public interface IQuery<in TRequest, out TResponse>
     {
         TResponse Execute(TRequest request);
     }

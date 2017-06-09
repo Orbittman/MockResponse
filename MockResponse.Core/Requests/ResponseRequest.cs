@@ -2,7 +2,7 @@
 
 public class ResponseRequest : RequestBase
 {
-    public string RequestId { get; set; }
+    public string ResponseId { get; set; }
 
     public override string Path => "responses/{RequestId}";
 }

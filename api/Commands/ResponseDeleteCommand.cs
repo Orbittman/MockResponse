@@ -21,7 +21,7 @@ namespace MockResponse.Api.Commands
         {
 			// Wrap all this in a command object
 			var filter = Builders<Response>.Filter
-										   .Eq(r => r.Id, new ObjectId(request.RequestId))
+										   .Eq(r => r.Id, new ObjectId(request.ResponseId))
 										   & Builders<Response>.Filter
 										   .Eq(r => r.Account, new ObjectId(_requestContext.AccountId));
 

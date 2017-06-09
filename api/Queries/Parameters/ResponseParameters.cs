@@ -1,11 +1,7 @@
-﻿using MockResponse.Core.Data.Models;
-
-namespace MockResponse.Api.Queries.Parameters
+﻿namespace MockResponse.Api.Queries.Parameters
 {
-    public class ResponseParameters : IPageable
+    public class ResponseParameters
     {
-        public int Page { get; set; }
-
-        public int PageSize { get; set; }
+        public string ResponseId { get; set; }
     }
 }
