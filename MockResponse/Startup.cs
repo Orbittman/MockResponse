@@ -1,3 +1,5 @@
+using System;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -14,6 +16,9 @@ using MockResponse.Web.Bootstrap;
 using MockResponse.Web.Configuration;
 using MockResponse.Web.Infrastructure;
 using MockResponse.Web.Models;
+
+using NETCore.MailKit.Extensions;
+using NETCore.MailKit.Infrastructure.Internal;
 
 using ServiceStack.Redis;
 
@@ -48,6 +53,20 @@ namespace MockResponse.Web
             services.AddTransient<IEmailClient, EmailClient>();
             services.AddTransient<IDateTimeProvider, DateTimeProvider>();
             services.AddTransient<ISiteRequestContext, SiteRequestContext>();
+
+            services.AddMailKit(optionBuilder =>
+                                {
+                                    optionBuilder.UseMailKit(new MailKitOptions()
+                                    {
+                                        //get options from sercets.json
+                                        Server = _config["SmtpServer"],
+                                        Port = Convert.ToInt32(_config["SmtpPort"]),
+                                        SenderName = _config["SmtpSenderName"],
+                                        SenderEmail = _config["SmtpSenderEmail"],
+                                        Account = _config["SmtpAccount"],
+                                        Passord = _config["SmtpPassword"]
+                                    });
+                                });
 
             // Configuration
             services.Configure<AppConfig>(_config);

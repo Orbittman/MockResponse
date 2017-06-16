@@ -1,5 +1,6 @@
 @using MockResponse.Web.Models
-@model MockResponse.Web.Models.HomeIndexModel
+@using MockResponse.Web.Resources
+@model HomeIndexModel
 @{
     Layout = "_Layout";
 }
@@ -7,16 +8,16 @@
 @if (Model.Authenticated)
 {
     <span>Welcome @Model.RequestContext.Session.Name</span>
-    <a href="/logout">logout</a>
+    <a href="/logout">@Translations.LoginSignupLogoutButton</a>
 }
 else
 {
-    <span>Login form</span>
+    <span>@Translations.LoginSignupLabel</span>
     using (Html.BeginForm("LoginRequest", "Auth", FormMethod.Post))
     {
         <fieldset>
-            <input type="text" placeholder="Email or phone number" maxlength="100" id="authIdentity" name="authIdentity" />
-            <button type="submit">Submit</button>
+            <input type="text" placeholder="@Translations.LoginPlaceholder" maxlength="100" id="authIdentity" name="authIdentity" />
+            <button type="submit">@Translations.LoginSignupSubmitButton</button>
         </fieldset>
     }
 }

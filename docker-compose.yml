@@ -12,9 +12,3 @@ services:
     build:
       context: ./MockResponse
       dockerfile: Dockerfile
-
-  reverse-proxy:
-    build: ./nginx
-    container_name: mockresponse_hosting
-    ports:
-      - "1111:1111"

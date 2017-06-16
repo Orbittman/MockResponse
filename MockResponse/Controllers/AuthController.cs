@@ -61,7 +61,8 @@ namespace MockResponse.Web.Controllers
             var success = false;
 			if (loginMethod == LoginMethod.Email)
 			{
-				success = _emailClient.Send(authIdentity, "tim@vouchercloud.com", $"<a href=\"http://127.0.0.1:1236/login/{token}\">Login</a>");
+			    var url = Url.Action("Login", "Auth", new { token });
+				success = _emailClient.Send(authIdentity, "MockResponse login", string.Format("<a href=\"{0}\"> Login</a>", url));
 			}
 			else
 			{

@@ -2,6 +2,6 @@
 {
 	public interface IEmailClient
 	{
-		bool Send(string to, string from, string body);
+		bool Send(string to, string subject, string body);
 	}
 }
