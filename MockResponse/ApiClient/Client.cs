@@ -1,14 +1,15 @@
 ﻿using System;
-using System.Net;
 using System.Net.Http;
 using System.Reflection;
 using System.Runtime.Serialization.Json;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Options;
-using MockResponse.Site.Configuration;
-using MockResponse.Site.Models;
 
-namespace MockResponse.Site.ApiClient
+using Microsoft.Extensions.Options;
+
+using MockResponse.Web.Configuration;
+using MockResponse.Web.Models;
+
+namespace MockResponse.Web.ApiClient
 {
     public class Client : IRestClient
     {

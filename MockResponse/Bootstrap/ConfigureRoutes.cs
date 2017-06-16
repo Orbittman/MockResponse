@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Routing;
 
-using MockResponse.Site.Controllers;
-using MockResponse.Site.Extensions;
+using MockResponse.Web.Controllers;
+using MockResponse.Web.Extensions;
 
-namespace MockResponse.Site.Bootstrap
+namespace MockResponse.Web.Bootstrap
 {
     public static class ConfigureRoutes
     {

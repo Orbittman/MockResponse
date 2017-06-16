@@ -1,4 +1,4 @@
-﻿namespace MockResponse.Site.Infrastructure
+﻿namespace MockResponse.Web.Infrastructure
 {
 	public class EmailClient : IEmailClient
 	{

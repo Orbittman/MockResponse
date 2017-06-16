@@ -1,5 +1,4 @@
-﻿using System;
-namespace MockResponse.Site.Configuration
+﻿namespace MockResponse.Web.Configuration
 {
     public class AppConfig
     {

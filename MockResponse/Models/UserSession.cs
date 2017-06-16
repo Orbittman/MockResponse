@@ -1,6 +1,6 @@
 using System;
 
-namespace MockResponse.Site.Models
+namespace MockResponse.Web.Models
 {
     public class UserSession
     {

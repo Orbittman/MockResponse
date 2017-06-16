@@ -1,13 +1,15 @@
 using System;
 using System.Linq;
+
 using Microsoft.AspNetCore.Http;
 
 using MockResponse.Core.Caching;
 using MockResponse.Core.Data;
 using MockResponse.Core.Data.Models;
+
 using MongoDB.Driver;
 
-namespace MockResponse.Site.Models
+namespace MockResponse.Web.Models
 {
     public class SiteRequestContext : ISiteRequestContext
     {

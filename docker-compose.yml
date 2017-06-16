@@ -1,16 +1,20 @@
 version: '2'
+
 services:
-  mockresponse-api:
-    container_name: mockresponse_api
-    build: ./api  
-    
-  mockresponse-site:
-    container_name: mockresponse_site
-    build: ./site
+  mockresponse.api:
+    image: mockresponse.api
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+
+  mockresponse.web:
+    image: mockresponse.web
+    build:
+      context: ./MockResponse
+      dockerfile: Dockerfile
 
   reverse-proxy:
     build: ./nginx
     container_name: mockresponse_hosting
     ports:
       - "1111:1111"
-  

@@ -13,7 +13,8 @@ namespace MockResponse.Api
 				.SetBasePath(Directory.GetCurrentDirectory())
 				.AddJsonFile("hosting.json", optional: false)
 				.AddCommandLine(args)
-				.Build();
+			    .AddUserSecrets("MockResponse-b4141464-f1e7-4271-926f-31de0bc5be7e")
+                .Build();
 
 			var host = new WebHostBuilder()
 				.UseKestrel(

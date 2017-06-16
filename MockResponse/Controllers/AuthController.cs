@@ -1,15 +1,17 @@
 using System;
 using System.Linq;
+
 using Microsoft.AspNetCore.Mvc;
 
 using MockResponse.Core.Data;
 using MockResponse.Core.Data.Models;
 using MockResponse.Core.Utilities;
-using MockResponse.Site.Infrastructure;
-using MockResponse.Site.Models;
+using MockResponse.Web.Infrastructure;
+using MockResponse.Web.Models;
+
 using MongoDB.Driver;
 
-namespace MockResponse.Site.Controllers
+namespace MockResponse.Web.Controllers
 {
     public class AuthController : BaseController
     {

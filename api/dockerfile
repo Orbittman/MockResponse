@@ -1,13 +1,6 @@
-FROM microsoft/dotnet:latest
-
-# Create directory for the app source code
-RUN mkdir -p /usr/src/mockresponse
-WORKDIR /usr/src/mockresponse
-
-# Copy the source and restore dependencies
-COPY . /usr/src/mockresponse
-RUN dotnet restore
-
-# Expose the port and start the app
-EXPOSE 5000
-CMD [ "dotnet", "run", "--environment", "Production", "--server.urls", "http://*:5000" ]
+FROM microsoft/aspnetcore:1.1
+ARG source
+WORKDIR /app
+EXPOSE 80
+COPY ${source:-obj/Docker/publish} .
+ENTRYPOINT ["dotnet", "MockResponse.Api.dll"]

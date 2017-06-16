@@ -2,9 +2,9 @@ using System;
 
 using Microsoft.AspNetCore.Mvc;
 
-using MockResponse.Site.Models;
+using MockResponse.Web.Models;
 
-namespace MockResponse.Site.Controllers
+namespace MockResponse.Web.Controllers
 {
     public abstract class BaseController : Controller
     {

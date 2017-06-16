@@ -1,4 +1,4 @@
-namespace MockResponse.Site.Models
+namespace MockResponse.Web.Models
 {
     public abstract class BaseViewModel
     {

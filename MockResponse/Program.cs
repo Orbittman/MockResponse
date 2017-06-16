@@ -3,7 +3,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 
-namespace MockResponse.Site
+namespace MockResponse.Web
 {
     public class Program
     {
@@ -13,6 +13,7 @@ namespace MockResponse.Site
 				.SetBasePath(Directory.GetCurrentDirectory())
 				.AddJsonFile("hosting.json", optional: false)
                 .AddCommandLine(args)
+                .AddUserSecrets("ff87c53e-5501-43b5-8af1-301e358e4890")
                 .Build();
 
             var host = new WebHostBuilder()

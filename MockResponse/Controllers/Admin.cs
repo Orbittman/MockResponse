@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
-using MockResponse.Core.Models;
-using MockResponse.Site.ApiClient;
-using MockResponse.Site.Models;
 
-namespace MockResponse.Site.Controllers
+using MockResponse.Core.Models;
+using MockResponse.Web.ApiClient;
+
+namespace MockResponse.Web.Controllers
 {
     public class AdminController : Controller
     {

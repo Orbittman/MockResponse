@@ -3,6 +3,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
@@ -20,13 +21,18 @@ namespace MockResponse.Api
 {
     public class Startup
     {
-        //private IHostingEnvironment _environment;
+        readonly IConfigurationRoot _config;
 
-        //public Startup(IHostingEnvironment environment)
-        //{
-        //    _environment = environment;w
-        //}
+        public Startup(IHostingEnvironment env)
+        {
+            // Set up configuration sources.
+            var builder = new ConfigurationBuilder()
+                //.SetBasePath(env.ContentRootPath)
+                //.AddJsonFile("appsettings.json", true, true)
+                .AddUserSecrets<Startup>();
 
+            _config = builder.Build();
+        }
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc(options => { options.RespectBrowserAcceptHeader = true; });
@@ -46,7 +52,7 @@ namespace MockResponse.Api
             services.AddScoped<ThrottlingFilter>();
             services.Add(new ServiceDescriptor(typeof(IThrottler), typeof(Throttler), ServiceLifetime.Singleton));
 
-            services.AddSingleton<INoSqlClient>(client => new MongoDbClient("mongodb://localhost:27017"));
+            services.AddSingleton<INoSqlClient>(client => new MongoDbClient($"mongodb://{_config["MongoUsername"]}:{_config["MongoPassword"]}@cluster0-shard-00-01-zlhjf.mongodb.net:27017"));
 
 			services.AddScoped<AuthorisationFilterAttribute>();
         }

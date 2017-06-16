@@ -1,6 +1,4 @@
-using System.Net;
-
-namespace MockResponse.Site.Models
+namespace MockResponse.Web.Models
 {
     public interface ISiteRequestContext
     {

@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 
-namespace MockResponse.Site.Extensions
+namespace MockResponse.Web.Extensions
 {
     public static class IRouteBuilderExtensions
     {

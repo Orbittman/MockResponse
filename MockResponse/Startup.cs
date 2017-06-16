@@ -5,32 +5,31 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
-using Microsoft.VisualBasic;
 
 using MockResponse.Core.Caching;
 using MockResponse.Core.Data;
 using MockResponse.Core.Utilities;
-using MockResponse.Site.Bootstrap;
-using MockResponse.Site.Controllers;
-using MockResponse.Site.Infrastructure;
-using MockResponse.Site.Models;
-using MockResponse.Site.Configuration;
+using MockResponse.Web.ApiClient;
+using MockResponse.Web.Bootstrap;
+using MockResponse.Web.Configuration;
+using MockResponse.Web.Infrastructure;
+using MockResponse.Web.Models;
 
 using ServiceStack.Redis;
-using MockResponse.Site.ApiClient;
 
-namespace MockResponse.Site
+namespace MockResponse.Web
 {
     public class Startup
     {
-        IConfigurationRoot _config;
+        readonly IConfigurationRoot _config;
 
         public Startup(IHostingEnvironment env)
 		{
 			// Set up configuration sources.
 			var builder = new ConfigurationBuilder()
 				.SetBasePath(env.ContentRootPath)
-				.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+				.AddJsonFile("appsettings.json", true, true)
+		        .AddUserSecrets<Startup>();
 
             _config = builder.Build();
 		}
@@ -40,7 +39,7 @@ namespace MockResponse.Site
             services.AddMvc(options => { options.RespectBrowserAcceptHeader = true; });
             services.AddRouting();
 
-            services.AddSingleton<INoSqlClient>(client => new MongoDbClient("mongodb://localhost:27017"));
+            services.AddSingleton<INoSqlClient>(client => new MongoDbClient($"mongodb://{_config["MongoUsername"]}:{_config["MongoPassword"]}@cluster0-shard-00-01-zlhjf.mongodb.net:27017"));
 			services.AddTransient(c => new RedisManagerPool("localhost:6379").GetClient());
 			services.AddSingleton<ICacheClient, RedisCacheClient>();
 			services.AddSingleton<IRestClient, Client>();
