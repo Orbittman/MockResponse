@@ -14,7 +14,7 @@ namespace MockResponse.Web.Controllers
             _apiClient = apiClient;
         }
 
-        [HttpGet("list")]
+        [HttpGet("responses")]
         public ActionResult List()
         {
             var responses = _apiClient.GetAsync<ResponsesRequest, ResponsesModel>(new ResponsesRequest());
@@ -22,13 +22,15 @@ namespace MockResponse.Web.Controllers
             return View(model);
         }
 
-        [HttpGet("{responseId}/edit")]
-        public ActionResult EditResponse()
+        [HttpGet("responses/{responseId}")]
+        public ActionResult Edit()
         {
-            return View();
+            var response = _apiClient.GetAsync<ResponseRequest, ResponseModel>(new ResponseRequest());
+            var model = response.Result;
+            return View(model);
         }
 
-        [HttpPost("{responseId}/edit")]
+        [HttpPost("responses/{responseId}")]
         public ActionResult PostResponse(ResponseModel response)
         {
             return View();
