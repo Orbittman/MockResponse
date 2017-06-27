@@ -23,9 +23,9 @@ namespace MockResponse.Web.Controllers
         }
 
         [HttpGet("responses/{responseId}")]
-        public ActionResult Edit()
+        public ActionResult Edit(string responseId)
         {
-            var response = _apiClient.GetAsync<ResponseRequest, ResponseModel>(new ResponseRequest());
+            var response = _apiClient.GetAsync<ResponseRequest, ResponseModel>(new ResponseRequest { ResponseId = responseId });
             var model = response.Result;
             return View(model);
         }

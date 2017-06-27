@@ -23,7 +23,7 @@ namespace MockResponse.Web.Resources {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Translations {
+    public class Translations {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -37,7 +37,7 @@ namespace MockResponse.Web.Resources {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MockResponse.Web.Resources.Translations", typeof(Translations).GetTypeInfo().Assembly);
@@ -52,7 +52,7 @@ namespace MockResponse.Web.Resources {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -64,7 +64,7 @@ namespace MockResponse.Web.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Email or phone number.
         /// </summary>
-        internal static string LoginPlaceholder {
+        public static string LoginPlaceholder {
             get {
                 return ResourceManager.GetString("LoginPlaceholder", resourceCulture);
             }
@@ -73,7 +73,7 @@ namespace MockResponse.Web.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Login / Signup.
         /// </summary>
-        internal static string LoginSignupLabel {
+        public static string LoginSignupLabel {
             get {
                 return ResourceManager.GetString("LoginSignupLabel", resourceCulture);
             }
@@ -82,7 +82,7 @@ namespace MockResponse.Web.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Logout.
         /// </summary>
-        internal static string LoginSignupLogoutButton {
+        public static string LoginSignupLogoutButton {
             get {
                 return ResourceManager.GetString("LoginSignupLogoutButton", resourceCulture);
             }
@@ -91,7 +91,7 @@ namespace MockResponse.Web.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Submit.
         /// </summary>
-        internal static string LoginSignupSubmitButton {
+        public static string LoginSignupSubmitButton {
             get {
                 return ResourceManager.GetString("LoginSignupSubmitButton", resourceCulture);
             }

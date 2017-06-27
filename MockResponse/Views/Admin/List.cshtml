@@ -2,5 +2,5 @@
 
 @foreach(var response in Model.Responses)
 {
-    <li>@response.Content</li>
+    <li>@response.Content - <a href="@($"/responses/{response.Id}")">edit</a></li>
 }

@@ -7,5 +7,12 @@
 
 <h2>Edit</h2>
 @Html.BeginForm("PostResponse", "Admin"){
-@Html.TextBoxFor(m => m.Response) 
+@Html.TextBoxFor(m => m.Response.ResponseId) 
+@Html.TextBoxFor(m => m.Response.StatusCode) 
+@Html.TextBoxFor(m => m.Response.Content) 
+@Html.TextBoxFor(m => m.Response.Path) 
+@foreach(var header in Model.Headers)
+{
+	
+} 
 }

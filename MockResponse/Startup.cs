@@ -44,7 +44,7 @@ namespace MockResponse.Web
             services.AddMvc(options => { options.RespectBrowserAcceptHeader = true; });
             services.AddRouting();
 
-            services.AddSingleton<INoSqlClient>(client => new MongoDbClient($"mongodb://{_config["MongoUsername"]}:{_config["MongoPassword"]}@cluster0-shard-00-01-zlhjf.mongodb.net:27017"));
+            services.AddSingleton<INoSqlClient>(client => new MongoDbClient($"mongodb://{_config["MongoUsername"]}:{_config["MongoPassword"]}@cluster0-shard-00-00-zlhjf.mongodb.net:27017,cluster0-shard-00-01-zlhjf.mongodb.net:27017,cluster0-shard-00-02-zlhjf.mongodb.net:27017/<DATABASE>?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin"));
 			services.AddTransient(c => new RedisManagerPool("localhost:6379").GetClient());
 			services.AddSingleton<ICacheClient, RedisCacheClient>();
 			services.AddSingleton<IRestClient, Client>();

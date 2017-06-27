@@ -7,7 +7,7 @@ namespace MockResponse.Core.Models
     public class ResponseModel
     {
         [DataMember(Name="responseId")]
-        public string ResponseId { get; set; }
+        public string Id { get; set; }
 
         [DataMember(Name = "statusCode")]
         public int StatusCode { get; set; }

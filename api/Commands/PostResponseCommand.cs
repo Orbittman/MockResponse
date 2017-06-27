@@ -30,8 +30,8 @@ namespace MockResponse.Api.Commands
                 response.Domain = new Domain { Host = $"{Guid.NewGuid()}.api.mockresponse.net" };
             }
 
-            response.Account = new ObjectId(_requestContext.ApiKey);
-            _dbClient.InsertOne(response, nameof(response));
+            response.Account = new ObjectId(_requestContext.AccountId);
+            _dbClient.InsertOne(response, response.GetType().Name);
 
             return response;
         }
