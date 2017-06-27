@@ -3,21 +3,22 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:57277/",
+      "applicationUrl": "http://localhost:55862",
       "sslPort": 0
     }
   },
   "profiles": {
     "IIS Express": {
       "commandName": "IISExpress",
+      "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "MockResponse.Api": {
+    "MockResponse.Web": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "http://localhost:1234",
+      "launchUrl": "http://localhost:1236",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

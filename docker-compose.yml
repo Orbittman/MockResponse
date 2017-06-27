@@ -4,11 +4,11 @@ services:
   mockresponse.api:
     image: mockresponse.api
     build:
-      context: ./api
+      context: ./MockResponse.Api
       dockerfile: Dockerfile
 
   mockresponse.web:
     image: mockresponse.web
     build:
-      context: ./MockResponse
+      context: ./MockResponse.Web
       dockerfile: Dockerfile

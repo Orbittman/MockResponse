@@ -1,0 +1,23 @@
+@using MockResponse.Web.Models
+@using MockResponse.Web.Resources
+@model HomeIndexModel
+@{
+    Layout = "_Layout";
+}
+
+@if (Model.Authenticated)
+{
+    <span>Welcome @Model.RequestContext.Session.Name</span>
+    <a href="/logout">@Translations.LoginSignupLogoutButton</a>
+}
+else
+{
+    <span>@Translations.LoginSignupLabel</span>
+    using (Html.BeginForm("LoginRequest", "Auth", FormMethod.Post))
+    {
+        <fieldset>
+            <input type="text" placeholder="@Translations.LoginPlaceholder" maxlength="100" id="authIdentity" name="authIdentity" />
+            <button type="submit">@Translations.LoginSignupSubmitButton</button>
+        </fieldset>
+    }
+}

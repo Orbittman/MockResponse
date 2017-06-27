@@ -1,0 +1,18 @@
+@using MockResponse.Web.Models
+@model MockResponse.Web.Models.EditResponseViewModel
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Edit</h2>
+@Html.BeginForm("PostResponse", "Admin"){
+@Html.TextBoxFor(m => m.Response.ResponseId) 
+@Html.TextBoxFor(m => m.Response.StatusCode) 
+@Html.TextBoxFor(m => m.Response.Content) 
+@Html.TextBoxFor(m => m.Response.Path) 
+@foreach(var header in Model.Headers)
+{
+	
+} 
+}
