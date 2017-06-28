@@ -1,18 +1,21 @@
 @using MockResponse.Web.Models
-@model MockResponse.Web.Models.EditResponseViewModel
+@model EditResponseViewModel
 @{
     ViewData["Title"] = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h2>Edit</h2>
-@Html.BeginForm("PostResponse", "Admin"){
-@Html.TextBoxFor(m => m.Response.ResponseId) 
-@Html.TextBoxFor(m => m.Response.StatusCode) 
-@Html.TextBoxFor(m => m.Response.Content) 
-@Html.TextBoxFor(m => m.Response.Path) 
-@foreach(var header in Model.Headers)
+@using (Html.BeginForm("PostResponse", "Admin", FormMethod.Post))
 {
-	
-} 
+    @Html.TextBoxFor(m => m.Response.Id) 
+    @Html.TextBoxFor(m => m.Response.StatusCode) 
+    @Html.TextBoxFor(m => m.Response.Content) 
+    @Html.TextBoxFor(m => m.Response.Path) 
+    foreach (var header in Model.Response.Headers)
+    {
+	    @header.Value
+    }
+    @Html.HiddenFor(m => m.Response.Id)
+    <input type="submit" name="SaveButton" value="Save" />
 }

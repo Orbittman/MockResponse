@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using Microsoft.Extensions.Options;
 
+using MockResponse.Core.Requests;
 using MockResponse.Web.Configuration;
 using MockResponse.Web.Models;
 
@@ -36,7 +37,7 @@ namespace MockResponse.Web.ApiClient
                         var properties = request.GetType().GetProperties();
                         foreach (var property in properties)
                         {
-                            path = path.Replace($"{{property.Name}}", property.GetValue(request).ToString());
+                            path = path.Replace($"{{{property.Name}}}", property.GetValue(request).ToString());
                         }
 
                         client.DefaultRequestHeaders.Add("x-apikey", _requestContext.ApiKey);

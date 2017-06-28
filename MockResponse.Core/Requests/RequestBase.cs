@@ -1,4 +1,7 @@
-﻿public abstract class RequestBase
+﻿namespace MockResponse.Core.Requests
 {
-	public abstract string Path { get; }
+    public abstract class RequestBase
+    {
+        public abstract string Path { get; }
+    }
 }

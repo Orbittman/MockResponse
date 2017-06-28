@@ -14,6 +14,7 @@ using MockResponse.Api.Queries.Parameters;
 using MockResponse.Core.Data;
 using MockResponse.Core.Data.Models;
 using MockResponse.Core.Models;
+using MockResponse.Core.Requests;
 
 using MongoDB.Driver;
 
@@ -64,7 +65,7 @@ namespace MockResponse.Api.Controllers
                 return NotFound();
             }
 
-            return Json(response);
+            return Json(_mapper.Map<ResponseModel>(response));
         }
 
         [HttpDelete("responses/{responseid}")]

@@ -1,5 +1,7 @@
 using System;
 
+using AutoMapper;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -10,6 +12,7 @@ using Microsoft.Extensions.Logging;
 
 using MockResponse.Core.Caching;
 using MockResponse.Core.Data;
+using MockResponse.Core.Models;
 using MockResponse.Core.Utilities;
 using MockResponse.Web.ApiClient;
 using MockResponse.Web.Bootstrap;
@@ -42,6 +45,7 @@ namespace MockResponse.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc(options => { options.RespectBrowserAcceptHeader = true; });
+            services.AddAutoMapper();
             services.AddRouting();
 
             services.AddSingleton<INoSqlClient>(client => new MongoDbClient($"mongodb://{_config["MongoUsername"]}:{_config["MongoPassword"]}@cluster0-shard-00-00-zlhjf.mongodb.net:27017,cluster0-shard-00-01-zlhjf.mongodb.net:27017,cluster0-shard-00-02-zlhjf.mongodb.net:27017/<DATABASE>?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin"));
@@ -76,6 +80,14 @@ namespace MockResponse.Web
         {
             app.UseDeveloperExceptionPage();
             app.UseMvc(ConfigureRoutes.Configure);
+        }
+    }
+
+    public class MappingProfile : Profile
+    {
+        public MappingProfile()
+        {
+            CreateMap<ResponseModel, ResponseViewModel>();
         }
     }
 }

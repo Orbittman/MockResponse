@@ -1,17 +1,23 @@
+using AutoMapper;
+
 using Microsoft.AspNetCore.Mvc;
 
 using MockResponse.Core.Models;
+using MockResponse.Core.Requests;
 using MockResponse.Web.ApiClient;
+using MockResponse.Web.Models;
 
 namespace MockResponse.Web.Controllers
 {
     public class AdminController : Controller
     {
         readonly IRestClient _apiClient;
+        private readonly IMapper _mapper;
 
-        public AdminController(IRestClient apiClient)
+        public AdminController(IRestClient apiClient, IMapper mapper)
         {
             _apiClient = apiClient;
+            _mapper = mapper;
         }
 
         [HttpGet("responses")]
@@ -27,11 +33,11 @@ namespace MockResponse.Web.Controllers
         {
             var response = _apiClient.GetAsync<ResponseRequest, ResponseModel>(new ResponseRequest { ResponseId = responseId });
             var model = response.Result;
-            return View(model);
+            return View(new EditResponseViewModel{ Response = _mapper.Map<ResponseViewModel>(model) });
         }
 
         [HttpPost("responses/{responseId}")]
-        public ActionResult PostResponse(ResponseModel response)
+        public ActionResult PostResponse(ResponseViewModel response)
         {
             return View();
         }

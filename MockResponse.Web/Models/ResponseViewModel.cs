@@ -4,7 +4,7 @@ namespace MockResponse.Web.Models
 {
     public class ResponseViewModel
     {
-        public string ResponseId { get; set; }
+        public string Id { get; set; }
         
         public int StatusCode { get; set; }
         

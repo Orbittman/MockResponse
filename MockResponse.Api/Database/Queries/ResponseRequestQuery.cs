@@ -4,6 +4,8 @@ using System.Linq;
 using MockResponse.Api.Database.MongoDb;
 using MockResponse.Core.Data;
 
+using ResponseRequest = MockResponse.Core.Requests.ResponseRequest;
+
 namespace MockResponse.Api.Database.Queries
 {
     public class ResponseRequestQuery : IResponseRequestQuery
