@@ -82,7 +82,7 @@ namespace MockResponse.Api.Controllers
             return NotFound();
         }
 
-        [HttpPost("responses")]
+        [HttpPost("responses/{responseid}")]
         [ServiceFilter(typeof(AuthorisationFilterAttribute))]
         public IActionResult PostResponse([FromBody] ResponseModel model)
         {

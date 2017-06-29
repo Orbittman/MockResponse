@@ -4,11 +4,11 @@ using System.Reflection;
 using System.Runtime.Serialization.Json;
 using System.Threading.Tasks;
 
-using Microsoft.Extensions.Options;
-
 using MockResponse.Core.Requests;
 using MockResponse.Web.Configuration;
 using MockResponse.Web.Models;
+
+using ServiceStack;
 
 namespace MockResponse.Web.ApiClient
 {
@@ -17,7 +17,7 @@ namespace MockResponse.Web.ApiClient
         readonly AppConfig _configuration;
         readonly ISiteRequestContext _requestContext;
 
-        public Client(IOptions<AppConfig> configuration, ISiteRequestContext requestContext)
+        public Client(Microsoft.Extensions.Options.IOptions<AppConfig> configuration, ISiteRequestContext requestContext)
         {
             _requestContext = requestContext;
             _configuration = configuration.Value;
@@ -27,46 +27,53 @@ namespace MockResponse.Web.ApiClient
             where TRequest : RequestBase
             where TResponse : class
         {
-            return Task.Run(() =>
-            {
-                using (var handler = new HttpClientHandler())
-                {
-                    using (var client = new HttpClient(handler) { BaseAddress = new Uri(_configuration.ApiAddress) })
-                    {
-                        var path = request.Path;
-                        var properties = request.GetType().GetProperties();
-                        foreach (var property in properties)
-                        {
-                            path = path.Replace($"{{{property.Name}}}", property.GetValue(request).ToString());
-                        }
-
-                        client.DefaultRequestHeaders.Add("x-apikey", _requestContext.ApiKey);
-                        var response = client.GetAsync(path).Result;
-                        if (!response.IsSuccessStatusCode)
-                        {
-                            return default(TResponse);
-                        }
-
-                        var serializer = new DataContractJsonSerializer(typeof(TResponse));
-                        try
-                        {
-                            var result = serializer.ReadObject(response.Content.ReadAsStreamAsync().Result);
-                            return result as TResponse;
-                        }
-                        catch
-                        {
-                            return default(TResponse);
-                        }
-                    }
-                }
-            });
+            return CallCLientAsync<TRequest, TResponse>(request, (client, path) => client.GetAsync(path));
         }
-    }
 
-    public interface IRestClient
-    {
-        Task<TResponse> GetAsync<TRequest, TResponse>(TRequest request)
+        public Task<TResponse> PostAsync<TRequest, TResponse>(TRequest request)
             where TRequest : RequestBase
-            where TResponse : class;
+            where TResponse : class
+        {
+            return CallCLientAsync<TRequest, TResponse>(request, (client, path) => client.PostAsync(path, new StringContent(request.ToJson())));
+        }
+
+        private Task<TResponse> CallCLientAsync<TRequest, TResponse>(TRequest request, Func<HttpClient, string, Task<HttpResponseMessage>> clientFunction)
+            where TRequest : RequestBase
+            where TResponse : class
+        {
+            return Task.Run(() =>
+                            {
+                                using (var handler = new HttpClientHandler())
+                                {
+                                    using (var client = new HttpClient(handler) { BaseAddress = new Uri(_configuration.ApiAddress) })
+                                    {
+                                        var path = request.Path;
+                                        var properties = request.GetType().GetProperties();
+                                        foreach (var property in properties)
+                                        {
+                                            path = path.Replace($"{{{property.Name}}}", property.GetValue(request).ToString());
+                                        }
+
+                                        client.DefaultRequestHeaders.Add("x-apikey", _requestContext.ApiKey);
+                                        var response = clientFunction(client, path).Result;
+                                        if (!response.IsSuccessStatusCode)
+                                        {
+                                            return default(TResponse);
+                                        }
+
+                                        var serializer = new DataContractJsonSerializer(typeof(TResponse));
+                                        try
+                                        {
+                                            var result = serializer.ReadObject(response.Content.ReadAsStreamAsync().Result);
+                                            return result as TResponse;
+                                        }
+                                        catch
+                                        {
+                                            return default(TResponse);
+                                        }
+                                    }
+                                }
+                            });
+        }
     }
 }

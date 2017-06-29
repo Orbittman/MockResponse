@@ -88,6 +88,7 @@ namespace MockResponse.Web
         public MappingProfile()
         {
             CreateMap<ResponseModel, ResponseViewModel>();
+            CreateMap<ResponseViewModel, ResponseModel>();
         }
     }
 }

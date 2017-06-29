@@ -25,6 +25,7 @@ namespace MockResponse.Web.Controllers
         {
             var responses = _apiClient.GetAsync<ResponsesRequest, ResponsesModel>(new ResponsesRequest());
             var model = responses.Result;
+
             return View(model);
         }
 
@@ -33,13 +34,17 @@ namespace MockResponse.Web.Controllers
         {
             var response = _apiClient.GetAsync<ResponseRequest, ResponseModel>(new ResponseRequest { ResponseId = responseId });
             var model = response.Result;
+
             return View(new EditResponseViewModel{ Response = _mapper.Map<ResponseViewModel>(model) });
         }
 
         [HttpPost("responses/{responseId}")]
         public ActionResult PostResponse(ResponseViewModel response)
         {
-            return View();
+            var model = _mapper.Map<ResponseModel>(response);
+            _apiClient.PostAsync<PostResponseRequest, ResponseModel>(new PostResponseRequest(model));
+
+            return View("List");
         }
     }
 }
