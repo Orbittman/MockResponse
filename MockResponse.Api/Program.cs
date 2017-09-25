@@ -20,9 +20,9 @@ namespace MockResponse.Api
 				.UseKestrel(
 					options =>
 					{
-						options.NoDelay = true;
+						//options.NoDelay = true;
 						//options.UseHttps("www.idldev.net.pfx", "xxxxxxxx");
-						options.UseConnectionLogging();
+						//options.UseConnectionLogging();
 					})
 				.UseContentRoot(Directory.GetCurrentDirectory())
 				.UseConfiguration(config)
