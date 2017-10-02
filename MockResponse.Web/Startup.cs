@@ -60,7 +60,7 @@ namespace MockResponse.Web
 
             services.AddMailKit(optionBuilder =>
                                 {
-                                    optionBuilder.UseMailKit(new MailKitOptions()
+                                    optionBuilder.UseMailKit(new MailKitOptions
                                     {
                                         //get options from sercets.json
                                         Server = _config["SmtpServer"],
@@ -68,7 +68,7 @@ namespace MockResponse.Web
                                         SenderName = _config["SmtpSenderName"],
                                         SenderEmail = _config["SmtpSenderEmail"],
                                         Account = _config["SmtpAccount"],
-                                        Passord = _config["SmtpPassword"]
+                                        Password = _config["SmtpPassword"]
                                     });
                                 });
 
