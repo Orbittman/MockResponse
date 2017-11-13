@@ -1,6 +1,8 @@
 @using MockResponse.Web.Models
 @using MockResponse.Web.Resources
 @model HomeIndexModel
+@using MockResponse.Web.Infrastructure
+@using MockResponse.Web.Controllers
 @{
     Layout = "_Layout";
 }
@@ -9,6 +11,12 @@
 {
     <span>Welcome @Model.RequestContext.Session.Name</span>
     <a href="/logout">@Translations.LoginSignupLogoutButton</a>
+
+    <nav>
+        <ul>
+		    <li>@(Url.Action<AdminController>(c => c.List(), "List"))</li>
+		</ul>
+	</nav>
 }
 else
 {

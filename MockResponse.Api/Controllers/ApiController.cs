@@ -84,9 +84,9 @@ namespace MockResponse.Api.Controllers
 
         [HttpPost("responses/{responseid}")]
         [ServiceFilter(typeof(AuthorisationFilterAttribute))]
-        public IActionResult PostResponse([FromBody] ResponseModel model)
+        public IActionResult PostResponse([FromBody] PostResponseRequest model)
         {
-            var response = _postResponseCommand.Execute(_mapper.Map<ResponsePostParameters>(model));
+            var response = _postResponseCommand.Execute(_mapper.Map<ResponsePostParameters>(model.Response));
             return Json(response);
         }
 

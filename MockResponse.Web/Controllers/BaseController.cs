@@ -18,7 +18,11 @@ namespace MockResponse.Web.Controllers
         protected TModel CreateViewModel<TModel>(Action<TModel> constructionPredicate = null)
             where TModel : BaseViewModel, new()
         {
-            var model = new TModel { Authenticated = RequestContext.Authenticated, RequestContext = RequestContext };
+            var model = new TModel { 
+                Authenticated = RequestContext.Authenticated, 
+                RequestContext = RequestContext,
+                Url = Url
+            };
             constructionPredicate?.Invoke(model);
             return model;
         }

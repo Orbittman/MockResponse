@@ -11,9 +11,9 @@ namespace MockResponse.Api.Commands
 {
     public class PostResponseCommand : IPostResponseCommand
     {
-        private readonly IRequestContext _requestContext;
-        private readonly INoSqlClient _dbClient;
-        private readonly IMapper _mapper;
+        readonly IRequestContext _requestContext;
+        readonly INoSqlClient _dbClient;
+        readonly IMapper _mapper;
 
         public PostResponseCommand(IRequestContext requestContext, INoSqlClient dbClient, IMapper mapper)
         {

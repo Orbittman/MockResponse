@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Routing;
 
 namespace MockResponse.Web.Extensions
 {
-    public static class IRouteBuilderExtensions
+    public static class RouteBuilderExtensions
     {
         public static void AddRoute<TController>(this IRouteBuilder builder, string routeName, string url, Expression<Action<TController>> action)
             where TController : Controller
@@ -17,7 +17,7 @@ namespace MockResponse.Web.Extensions
             builder.MapRoute(routeName, url, new { controller = routeInfo.ControllerName, action = routeInfo.ActionName });
         }
 
-        private static RouteInfo GetRouteInfo<TController>(
+        public static RouteInfo GetRouteInfo<TController>(
             Expression<Action<TController>> expression)
             where TController : Controller
         {

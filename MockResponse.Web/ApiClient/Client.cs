@@ -2,6 +2,7 @@
 using System.Net.Http;
 using System.Reflection;
 using System.Runtime.Serialization.Json;
+using System.Text;
 using System.Threading.Tasks;
 
 using MockResponse.Core.Requests;
@@ -34,7 +35,8 @@ namespace MockResponse.Web.ApiClient
             where TRequest : RequestBase
             where TResponse : class
         {
-            return CallCLientAsync<TRequest, TResponse>(request, (client, path) => client.PostAsync(path, new StringContent(request.ToJson())));
+            return CallCLientAsync<TRequest, TResponse>(request, (client, path) => client.PostAsync(path, new StringContent(request.ToJson(), Encoding.UTF8,
+                                                                                                                            "application/json")));
         }
 
         private Task<TResponse> CallCLientAsync<TRequest, TResponse>(TRequest request, Func<HttpClient, string, Task<HttpResponseMessage>> clientFunction)
