@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using AutoMapper;
 
 using Microsoft.AspNetCore.Mvc;
@@ -39,10 +40,10 @@ namespace MockResponse.Web.Controllers
         }
 
         [HttpPost("responses/{responseId}")]
-        public ActionResult PostResponse(ResponseViewModel response)
+        public async Task<ActionResult> PostResponse(ResponseViewModel response)
         {
             var model = _mapper.Map<ResponseModel>(response);
-            _apiClient.PostAsync<PostResponseRequest, ResponseModel>(new PostResponseRequest(model));
+            await _apiClient.PostAsync<PostResponseRequest, ResponseModel>(new PostResponseRequest(model));
 
             return View("List");
         }

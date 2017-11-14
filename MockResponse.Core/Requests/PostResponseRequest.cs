@@ -9,6 +9,8 @@ namespace MockResponse.Core.Requests
             Response = response;
         }
 
+        public string ResponseId { get { return Response.Id; }}
+
         public ResponseModel Response { get; }
 
         public override string Path => "responses/{ResponseId}";

@@ -15,5 +15,7 @@ namespace MockResponse.Api.Commands.Parameters
         public string Content { get; set; }
 
         public string Path { get; set; }
+
+        public string Id { get; set; }
     }
 }

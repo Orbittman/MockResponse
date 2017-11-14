@@ -6,12 +6,12 @@ using MongoDB.Driver;
 
 namespace MockResponse.Api.Commands
 {
-    public class ResponseDeleteCommand : IResponseDeleteCommand
+    public class DeleteResponseCommand : IResponseDeleteCommand
     {
         readonly IRequestContext _requestContext;
         readonly INoSqlClient _dbClient;
 
-        public ResponseDeleteCommand(IRequestContext requestContext, INoSqlClient dbClient)
+        public DeleteResponseCommand(IRequestContext requestContext, INoSqlClient dbClient)
         {
             _dbClient = dbClient;
             _requestContext = requestContext;

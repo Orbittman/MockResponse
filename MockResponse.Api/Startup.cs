@@ -33,6 +33,7 @@ namespace MockResponse.Api
 
             _config = builder.Build();
         }
+
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc(options => { options.RespectBrowserAcceptHeader = true; });
@@ -47,12 +48,12 @@ namespace MockResponse.Api
             services.AddTransient<IAccountQuery, AccountQuery>();
 
 			services.AddTransient<IPostResponseCommand, PostResponseCommand>();
-			services.AddTransient<IResponseDeleteCommand, ResponseDeleteCommand>();
+			services.AddTransient<IResponseDeleteCommand, DeleteResponseCommand>();
 
             services.AddScoped<ThrottlingFilter>();
             services.Add(new ServiceDescriptor(typeof(IThrottler), typeof(Throttler), ServiceLifetime.Singleton));
 
-            services.AddSingleton<INoSqlClient>(client => new MongoDbClient($"mongodb://{_config["MongoUsername"]}:{_config["MongoPassword"]}@cluster0-shard-00-00-zlhjf.mongodb.net:27017,cluster0-shard-00-01-zlhjf.mongodb.net:27017,cluster0-shard-00-02-zlhjf.mongodb.net:27017/<DATABASE>?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin"));
+            services.AddSingleton<INoSqlClient>(client => new MongoDbClient($"mongodb://{_config["MongoUsername"]}:{_config["MongoPassword"]}@cluster0-shard-00-00-zlhjf.mongodb.net:27017,cluster0-shard-00-01-zlhjf.mongodb.net:27017,cluster0-shard-00-02-zlhjf.mongodb.net:27017/IDL_Monitor?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin"));
 
 			services.AddScoped<AuthorisationFilterAttribute>();
         }

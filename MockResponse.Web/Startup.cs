@@ -48,7 +48,7 @@ namespace MockResponse.Web
             services.AddAutoMapper();
             services.AddRouting();
 
-            services.AddSingleton<INoSqlClient>(client => new MongoDbClient($"mongodb://{_config["MongoUsername"]}:{_config["MongoPassword"]}@cluster0-shard-00-00-zlhjf.mongodb.net:27017,cluster0-shard-00-01-zlhjf.mongodb.net:27017,cluster0-shard-00-02-zlhjf.mongodb.net:27017/<DATABASE>?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin"));
+            services.AddSingleton<INoSqlClient>(client => new MongoDbClient($"mongodb://{_config["MongoUsername"]}:{_config["MongoPassword"]}@cluster0-shard-00-00-zlhjf.mongodb.net:27017,cluster0-shard-00-01-zlhjf.mongodb.net:27017,cluster0-shard-00-02-zlhjf.mongodb.net:27017/IDL_Monitor?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin"));
 			services.AddTransient(c => new RedisManagerPool("localhost:6379").GetClient());
 			services.AddSingleton<ICacheClient, RedisCacheClient>();
 			services.AddSingleton<IRestClient, Client>();
@@ -62,7 +62,7 @@ namespace MockResponse.Web
                                 {
                                     optionBuilder.UseMailKit(new MailKitOptions
                                     {
-                                        //get options from sercets.json
+                                        // get options from sercets.json
                                         Server = _config["SmtpServer"],
                                         Port = Convert.ToInt32(_config["SmtpPort"]),
                                         SenderName = _config["SmtpSenderName"],
