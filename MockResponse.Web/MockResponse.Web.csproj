@@ -75,6 +75,7 @@
     <Folder Include="wwwroot\Dist\" />
     <Folder Include="Content\" />
     <Folder Include="Content\Styles\" />
+    <Folder Include="wwwroot\Img\" />
   </ItemGroup>
 
   <ItemGroup>

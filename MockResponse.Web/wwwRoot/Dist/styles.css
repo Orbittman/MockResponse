@@ -1,4 +1,14 @@
+nav ul {
+  list-style: none; }
+
+nav li.list:before {
+  background: url("Img/icons.svg");
+  background-color: #00ff00;
+  width: 20x;
+  height: 20px; }
+
+body {
+  font-family: 'Titillium Web', sans-serif; }
+
 .edit-label {
-  color: #ff0000;
-  width: 71.42857%; 
-}
+  color: #ff0000; }

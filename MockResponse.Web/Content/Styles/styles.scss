@@ -1,3 +1,10 @@
-﻿.edit-label {
-    color: #ff0000;
+﻿@import 'variables';
+@import 'navigation';
+
+body{
+    font-family: 'Titillium Web', sans-serif;
+}
+
+.edit-label {
+    color: $heading-colour;
 }
