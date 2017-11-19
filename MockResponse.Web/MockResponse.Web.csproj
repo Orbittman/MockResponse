@@ -71,6 +71,9 @@
     <Folder Include="Views\Auth\" />
     <Folder Include="Configuration\" />
     <Folder Include="Infrastructure\Extensions\" />
+    <Folder Include="Content\" />
+    <Folder Include="Content\Styles\" />
+    <Folder Include="Content\Dist\" />
   </ItemGroup>
 
   <ItemGroup>

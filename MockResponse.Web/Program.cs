@@ -26,7 +26,7 @@ namespace MockResponse.Web
                     })
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseConfiguration(config)
-                .UseIISIntegration()
+                //.UseIISIntegration()
                 .UseStartup<Startup>()
                 .Build();
 

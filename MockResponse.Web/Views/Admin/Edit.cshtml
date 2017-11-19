@@ -8,10 +8,19 @@
 <h2>Edit</h2>
 @using (Html.BeginForm("PostResponse", "Admin", FormMethod.Post))
 {
-    @Html.TextBoxFor(m => m.Response.Id) 
-    @Html.TextBoxFor(m => m.Response.StatusCode) 
+<div class="edit-area">
+    <div class="edit-label">@Html.LabelFor(m => m.Response.Id)</div>
+    @Html.TextBoxFor(m => m.Response.Id)
+</div>
+<div class="edit-area">
+    <div class="edit-label">@Html.LabelFor(m => m.Response.StatusCode)</div>
+    @Html.TextBoxFor(m => m.Response.StatusCode)
+</div>
+    @Html.LabelFor(m => m.Response.Content)
     @Html.TextBoxFor(m => m.Response.Content) 
+    @Html.LabelFor(m => m.Response.Path)
     @Html.TextBoxFor(m => m.Response.Path) 
+    @Html.LabelFor(m => m.Response.Headers)
     foreach (var header in Model.Response.Headers)
     {
 	    @header.Value

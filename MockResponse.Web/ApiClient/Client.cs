@@ -56,7 +56,12 @@ namespace MockResponse.Web.ApiClient
                                             path = path.Replace($"{{{property.Name}}}", property.GetValue(request).ToString());
                                         }
 
-                                        client.DefaultRequestHeaders.Add("x-apikey", _requestContext.ApiKey);
+                                        //try
+                                        //{
+                                            client.DefaultRequestHeaders.Add("x-apikey", _requestContext.ApiKey);
+                        //}catch(Exception ex){
+                                            //var bob = ex;  
+                        //}
                                         var response = clientFunction(client, path).Result;
                                         if (!response.IsSuccessStatusCode)
                                         {

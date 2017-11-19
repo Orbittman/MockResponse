@@ -1,7 +1,14 @@
 @model MockResponse.Core.Models.ResponsesModel
 @using MockResponse.Core.Models;
 
+<nav>
+    <ul>
+        <li>@(Url.Action<AdminController>(c => c.Edit(null), "Add"))</li>
+    </ul>
+</nav>
+<ul>
 @foreach(var response in Model.Responses)
 {
     <li>@response.Content - <a href="@($"/responses/{response.Id}")">edit</a></li>
 }
+</ul>

@@ -14,7 +14,8 @@
 
     <nav>
         <ul>
-		    <li>@(Url.Action<AdminController>(c => c.List(), "List"))</li>
+            <li>@(Url.Action<AdminController>(c => c.List(), "List"))</li>
+            <li>@(Url.Action<AdminController>(c => c.Edit(string.Empty), "Add", new { responseId = "dfdfdfdfd" }))</li>
 		</ul>
 	</nav>
 }

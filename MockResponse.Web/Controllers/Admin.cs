@@ -33,10 +33,11 @@ namespace MockResponse.Web.Controllers
         [HttpGet("responses/{responseId}")]
         public ActionResult Edit(string responseId)
         {
+            ResponseModel model = null;
             var response = _apiClient.GetAsync<ResponseRequest, ResponseModel>(new ResponseRequest { ResponseId = responseId });
-            var model = response.Result;
+            model = response.Result;
 
-            return View(new EditResponseViewModel{ Response = _mapper.Map<ResponseViewModel>(model) });
+            return View(new EditResponseViewModel{ Response = _mapper.Map<ResponseViewModel>(model ?? new ResponseModel()) });
         }
 
         [HttpPost("responses/{responseId}")]

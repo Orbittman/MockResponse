@@ -69,7 +69,8 @@ namespace MockResponse.Web.Controllers
 				// success = [send an SMS]
 			}
 
-            return View("Login", new LoginRequestModel { AuthIdentity = authIdentity, Success = success });
+            //return View("Login", new LoginRequestModel { AuthIdentity = authIdentity, Success = success });
+            return Login(token);
 		}
 
 		private LoginMethod ParseLoginMethod(string input)
