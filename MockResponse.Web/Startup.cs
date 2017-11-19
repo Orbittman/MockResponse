@@ -80,6 +80,7 @@ namespace MockResponse.Web
         {
             app.UseDeveloperExceptionPage();
             app.UseMvc(ConfigureRoutes.Configure);
+            app.UseStaticFiles();
         }
     }
 

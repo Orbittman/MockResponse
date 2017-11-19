@@ -6,5 +6,5 @@ gulp.task('default', function() {
 
   return gulp.src('Content/Styles/styles.scss')
     .pipe(sass())
-    .pipe(gulp.dest('Dist'))
+    .pipe(gulp.dest('wwwroot/Dist'))
 });
