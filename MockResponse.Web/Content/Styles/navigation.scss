@@ -1,15 +1,18 @@
 ﻿nav {
     ul {
-      list-style : none;
+        list-style: none;
     }
 
     li {
-        .list {
-            &:before {
-                background: url('Img/icons.svg');
-                width:20x;
-                height: 20px;
-            }
+        &:before {
+            content: '';
+            background-color: #ff0000;
+            background: url("Img/icons.svg");
+            background-position-x: 30px;
+            background-position-y: 30px;
+            display: inline-block;
+            width: 20px;
+            height: 20px;
         }
     }
 }
