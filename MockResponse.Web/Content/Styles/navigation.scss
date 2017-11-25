@@ -1,18 +1,30 @@
-﻿nav {
+nav {
     ul {
         list-style: none;
     }
 
-    li {
-        &:before {
-            content: '';
-            background-color: #ff0000;
-            background: url("Img/icons.svg");
-            background-position-x: 30px;
-            background-position-y: 30px;
-            display: inline-block;
-            width: 20px;
-            height: 20px;
+    a {
+            &:before {
+                background: url('/Img/icons.svg');
+                width: 20px;
+                height: 20px;
+                content: '';
+                display: inline-block;
+                background-size: 700px 700px;
+                vertical-align: middle;
+                margin: 0 10px 0 0;
+            }
+        &.list {
+            &:before {
+                background-position-x: -38px;
+                background-position-y: -273px;
+            }
+        }
+        &.add {
+            &:before {
+                background-position-x: -539px;
+                background-position-y: -273px;
+            }
         }
     }
 }
