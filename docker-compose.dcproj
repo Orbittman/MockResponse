@@ -8,6 +8,9 @@
     <DockerTargetOS>Linux</DockerTargetOS>
     <ProjectVersion>2.0</ProjectVersion>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'c-configuration|AnyCPU' ">
+    <OutputPath>.\</OutputPath>
+  </PropertyGroup>
   <ItemGroup>
     <None Include="docker-compose.ci.build.yml" />
     <None Include="docker-compose.override.yml">

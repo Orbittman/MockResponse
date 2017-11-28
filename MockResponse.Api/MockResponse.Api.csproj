@@ -20,6 +20,16 @@
     <LangVersion>7</LangVersion>
   </PropertyGroup>
 
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'c-configuration|AnyCPU' ">
+    <IntermediateOutputPath>obj\c-configuration</IntermediateOutputPath>
+    <DebugType></DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\c-configuration</OutputPath>
+    <DefineConstants></DefineConstants>
+    <AssemblyName>MockResponse.Api</AssemblyName>
+    <NoWarn></NoWarn>
+    <NoStdLib>false</NoStdLib>
+  </PropertyGroup>
   <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp1.0' ">
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.1.1" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="2.0.0" />
