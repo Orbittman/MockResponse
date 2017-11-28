@@ -4,4 +4,4 @@ mono: none
 dotnet: 2.0.0
 script:
   - dotnet restore mockresponse.sln
-  - dotnet build mockresponse.sln
+  - dotnet build -c c-configuration mockresponse.sln
