@@ -7,7 +7,6 @@ services:
 script:
   - dotnet restore mockresponse.sln
   - dotnet build -c c-configuration mockresponse.sln
-  - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
 before_install:
   - if [ "$TRAVIS_BRANCH" == "master" ]; then
     docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD";
