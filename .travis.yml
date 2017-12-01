@@ -2,6 +2,8 @@ language: csharp
 solution: mockresponse.sln
 mono: none
 dotnet: 2.0.0
+services:
+  - docker
 script:
   - dotnet restore mockresponse.sln
   - dotnet build -c c-configuration mockresponse.sln
