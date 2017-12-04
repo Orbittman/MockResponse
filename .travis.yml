@@ -6,7 +6,7 @@ services:
   - docker
 script:
   - dotnet restore mockresponse.sln
-  - dotnet publish -c c-configuration -o ./obj/Docker/publish
+  - dotnet publish ./MockResponse.Api/MockResponse.Api.csproj -c c-configuration -o ./obj/Docker/publish
 before_install:
   - if [ "$TRAVIS_BRANCH" == "master" ]; then
     docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD";
