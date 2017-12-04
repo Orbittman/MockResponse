@@ -9,7 +9,7 @@ script:
   - dotnet build -c c-configuration mockresponse.sln
 before_install:
   - if [ "$TRAVIS_BRANCH" == "master" ]; then
-    docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
-    docker build -t $DOCKER_USERNAME/mockresponse .
-    docker push $DOCKER_USERNAME/mockresponse
+    docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD";
+    docker build -t $DOCKER_USERNAME/mockresponse .;
+    docker push $DOCKER_USERNAME/mockresponse;
     fi
