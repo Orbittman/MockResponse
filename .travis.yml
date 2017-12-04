@@ -4,10 +4,10 @@ mono: none
 dotnet: 2.0.0
 services:
   - docker
-script:
+before_install:
   - dotnet restore mockresponse.sln
   - dotnet publish ./MockResponse.Api/MockResponse.Api.csproj -c c-configuration -o ./obj/Docker/publish
-deploy:
+install:
   - if [ "$TRAVIS_BRANCH" == "master" ]; then
     docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD";
     docker build -t $DOCKER_USERNAME/mockresponse ./MockResponse.Api;
