@@ -23,8 +23,9 @@ namespace MockResponse.Web.Controllers
             INoSqlClient dbClient,
             ISiteRequestContext requestContext,
 			IDateTimeProvider dateTimeProvider,
-			IEmailClient emailClient)
-            : base(requestContext)
+			IEmailClient emailClient,
+            IDomainContext domainContext)
+            : base(requestContext, domainContext)
         {
             _dbClient = dbClient;
             _dateTimeProvider = dateTimeProvider;

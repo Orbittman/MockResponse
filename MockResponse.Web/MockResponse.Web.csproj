@@ -81,6 +81,9 @@
     <Folder Include="Content\" />
     <Folder Include="Content\Styles\" />
     <Folder Include="wwwroot\Img\" />
+    <Folder Include="Content\Tasks\" />
+    <Folder Include="Content\Src\" />
+    <Folder Include="Content\Tasks\Utilities\" />
   </ItemGroup>
 
   <ItemGroup>

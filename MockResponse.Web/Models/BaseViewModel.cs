@@ -8,6 +8,8 @@ namespace MockResponse.Web.Models
 
         public ISiteRequestContext RequestContext { get; set; }
 
-        public IUrlHelper Url { get; set; } 
+        public IUrlHelper Url { get; set; }
+
+        public string ClientStyles { get; internal set; }
     }
 }

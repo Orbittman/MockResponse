@@ -8,12 +8,15 @@ namespace MockResponse.Web.Controllers
 {
     public abstract class BaseController : Controller
     {
-        protected BaseController(ISiteRequestContext requestContext)
+        protected BaseController(ISiteRequestContext requestContext, IDomainContext domainContext)
         {
             RequestContext = requestContext;
+            DomainContext = domainContext;
         }
 
         protected ISiteRequestContext RequestContext { get; }
+
+        protected IDomainContext DomainContext { get; }
 
         protected TModel CreateViewModel<TModel>(Action<TModel> constructionPredicate = null)
             where TModel : BaseViewModel, new()
@@ -21,8 +24,10 @@ namespace MockResponse.Web.Controllers
             var model = new TModel { 
                 Authenticated = RequestContext.Authenticated, 
                 RequestContext = RequestContext,
-                Url = Url
+                Url = Url,
+                ClientStyles = DomainContext.ClientStyles
             };
+
             constructionPredicate?.Invoke(model);
             return model;
         }

@@ -37,6 +37,7 @@ namespace MockResponse.Web
 			var builder = new ConfigurationBuilder()
 				.SetBasePath(env.ContentRootPath)
 				.AddJsonFile("appsettings.json", true, true)
+                .AddJsonFile("wwwroot/Dist/assets.json")
 		        .AddUserSecrets<Startup>();
 
             _config = builder.Build();
@@ -48,15 +49,7 @@ namespace MockResponse.Web
             services.AddAutoMapper();
             services.AddRouting();
 
-            services.AddSingleton<INoSqlClient>(client => new MongoDbClient($"mongodb://{_config["MongoUsername"]}:{_config["MongoPassword"]}@cluster0-shard-00-00-zlhjf.mongodb.net:27017,cluster0-shard-00-01-zlhjf.mongodb.net:27017,cluster0-shard-00-02-zlhjf.mongodb.net:27017/IDL_Monitor?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin"));
-			services.AddTransient(c => new RedisManagerPool("localhost:6379").GetClient());
-			services.AddSingleton<ICacheClient, RedisCacheClient>();
-			services.AddSingleton<IRestClient, Client>();
-            services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-
-            services.AddTransient<IEmailClient, EmailClient>();
-            services.AddTransient<IDateTimeProvider, DateTimeProvider>();
-            services.AddTransient<ISiteRequestContext, SiteRequestContext>();
+            ConfigureDI.Configure(services, _config);
 
             services.AddMailKit(optionBuilder =>
                                 {

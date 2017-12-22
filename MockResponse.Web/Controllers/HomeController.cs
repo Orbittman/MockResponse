@@ -8,14 +8,15 @@ namespace MockResponse.Web.Controllers
 {
     public class HomeController : BaseController
     {
-        private readonly INoSqlClient _dbClient;
-        private readonly IDateTimeProvider _dateTimeProvider;
+        readonly INoSqlClient _dbClient;
+        readonly IDateTimeProvider _dateTimeProvider;
 
         public HomeController(
             INoSqlClient dbClient,
             ISiteRequestContext requestContext,
-            IDateTimeProvider dateTimeProvider)
-            : base(requestContext)
+            IDateTimeProvider dateTimeProvider,
+            IDomainContext domainContext)
+            : base(requestContext, domainContext)
         {
             _dbClient = dbClient;
             _dateTimeProvider = dateTimeProvider;

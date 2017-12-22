@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 
@@ -10,12 +11,17 @@ using MockResponse.Web.Models;
 
 namespace MockResponse.Web.Controllers
 {
-    public class AdminController : Controller
+    public class AdminController : BaseController
     {
         readonly IRestClient _apiClient;
-        private readonly IMapper _mapper;
+        readonly IMapper _mapper;
 
-        public AdminController(IRestClient apiClient, IMapper mapper)
+        public AdminController(
+            IRestClient apiClient, 
+            IMapper mapper, 
+            ISiteRequestContext requestContext, 
+            IDomainContext domainContext)
+            : base(requestContext, domainContext)
         {
             _apiClient = apiClient;
             _mapper = mapper;
@@ -25,7 +31,8 @@ namespace MockResponse.Web.Controllers
         public ActionResult List()
         {
             var responses = _apiClient.GetAsync<ResponsesRequest, ResponsesModel>(new ResponsesRequest());
-            var model = responses.Result;
+
+            var model = CreateViewModel<ListResponseViewModel>(m => m.Responses = responses.Result.Responses.Select(r => _mapper.Map<ResponseViewModel>(m))); 
 
             return View(model);
         }
@@ -34,8 +41,12 @@ namespace MockResponse.Web.Controllers
         public ActionResult Edit(string responseId)
         {
             ResponseModel model = null;
-            var response = _apiClient.GetAsync<ResponseRequest, ResponseModel>(new ResponseRequest { ResponseId = responseId });
-            model = response.Result;
+
+            if (!string.IsNullOrEmpty(responseId))
+            {
+                var response = _apiClient.GetAsync<ResponseRequest, ResponseModel>(new ResponseRequest { ResponseId = responseId });
+                model = response.Result;
+            }
 
             return View(new EditResponseViewModel{ Response = _mapper.Map<ResponseViewModel>(model ?? new ResponseModel()) });
         }

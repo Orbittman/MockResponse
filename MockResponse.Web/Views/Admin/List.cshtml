@@ -1,9 +1,11 @@
-@model MockResponse.Core.Models.ResponsesModel
+@model MockResponse.Web.Models.ListResponseViewModel;
 @using MockResponse.Core.Models;
+@using MockResponse.Web.Controllers;
+@using MockResponse.Web.Infrastructure;
 
 <nav>
     <ul>
-        <li>@(Url.Action<AdminController>(c => c.Edit(null), "Add"))</li>
+        <li>@(Url.Action<AdminController>(c => c.Edit(null), "Add", new { responseId = "new"}))</li>
     </ul>
 </nav>
 <ul>

@@ -1,18 +1,80 @@
 {
-  "name": "packages",
+  "name": "whitelabel",
   "version": "1.0.0",
-  "description": "Mock response.web packages",
-  "main": "/",
+  "description": "WhiteLabel",
+  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha -r ts-node/register ./Content/test/**/*.spec.ts",
+    "test-teamcity": "mocha -r ts-node/register --reporter mocha-teamcity-reporter ./Content/test/**/*.spec.ts"
   },
-  "author": "",
+  "author": "IDL",
   "license": "ISC",
-  "devDependencies": {
-    "gulp": "^3.9.1",
-    "gulp-sass": "^3.1.0"
-  },
   "dependencies": {
-    "bower": "^1.8.2"
+    "algoliasearch": "^3.24.0",
+    "clipboard-js": "^0.3.5",
+    "immutability-helper": "^2.3.1",
+    "picturefill": "^3.0.2",
+    "promise": "^8.0.1",
+    "redux": "^3.7.1",
+    "tsdom": "^0.5.5",
+    "vue": "^2.5.11"
+  },
+  "appDependencies": {
+    "algoliasearch": "^3.24.0",
+    "clipboard-js": "^0.3.5",
+    "picturefill": "^3.0.2",
+    "promise": "^8.0.1",
+    "redux": "^3.7.1",
+    "tsdom": "^0.5.2"
+  },
+  "devDependencies": {
+    "@types/algoliasearch": "^3.18.1",
+    "@types/chai": "^4.0.1",
+    "@types/clipboard-js": "^0.3.2",
+    "@types/immutability-helper": "^2.0.15",
+    "@types/mocha": "^2.2.41",
+    "@types/node": "^8.0.1",
+    "@types/sinon": "^2.3.2",
+    "browser-sync": "^2.18.13",
+    "browserify": "^14.4.0",
+    "chai": "^4.0.2",
+    "del": "^3.0.0",
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^4.0.0",
+    "gulp-hash": "^4.1.1",
+    "gulp-if": "^2.0.2",
+    "gulp-msbuild": "^0.5.1",
+    "gulp-notify": "^3.0.0",
+    "gulp-nuget": "^1.2.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-replace": "^0.6.1",
+    "gulp-sass": "^3.1.0",
+    "gulp-sass-lint": "^1.3.2",
+    "gulp-sequence": "^0.4.6",
+    "gulp-sourcemaps": "^2.6.0",
+    "gulp-tap": "^1.0.1",
+    "gulp-tslint": "^8.1.1",
+    "gulp-typescript": "^3.1.7",
+    "gulp-uglify": "^3.0.0",
+    "gulp-util": "^3.0.8",
+    "gulp-xml-transformer": "^1.3.0",
+    "mocha": "^3.4.2",
+    "mocha-teamcity-reporter": "^1.1.1",
+    "sinon": "^2.3.6",
+    "susy": "^2.2.12",
+    "ts-node": "^3.1.0",
+    "tsify": "^3.0.1",
+    "tslint": "^5.5.0",
+    "typescript": "2.3.4",
+    "vinyl-buffer": "^1.0.0",
+    "vinyl-source-stream": "^1.1.0"
+  },
+  "-vs-binding": {
+    "ProjectOpened": [
+      "install"
+    ],
+    "Clean": [
+      "install"
+    ]
   }
 }

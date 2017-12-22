@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Net.Http;
-using System.Reflection;
 using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,18 +27,18 @@ namespace MockResponse.Web.ApiClient
             where TRequest : RequestBase
             where TResponse : class
         {
-            return CallCLientAsync<TRequest, TResponse>(request, (client, path) => client.GetAsync(path));
+            return CallClientAsync<TRequest, TResponse>(request, (client, path) => client.GetAsync(path));
         }
 
         public Task<TResponse> PostAsync<TRequest, TResponse>(TRequest request)
             where TRequest : RequestBase
             where TResponse : class
         {
-            return CallCLientAsync<TRequest, TResponse>(request, (client, path) => client.PostAsync(path, new StringContent(request.ToJson(), Encoding.UTF8,
+            return CallClientAsync<TRequest, TResponse>(request, (client, path) => client.PostAsync(path, new StringContent(request.ToJson(), Encoding.UTF8,
                                                                                                                             "application/json")));
         }
 
-        private Task<TResponse> CallCLientAsync<TRequest, TResponse>(TRequest request, Func<HttpClient, string, Task<HttpResponseMessage>> clientFunction)
+        private Task<TResponse> CallClientAsync<TRequest, TResponse>(TRequest request, Func<HttpClient, string, Task<HttpResponseMessage>> clientFunction)
             where TRequest : RequestBase
             where TResponse : class
         {
@@ -56,12 +55,8 @@ namespace MockResponse.Web.ApiClient
                                             path = path.Replace($"{{{property.Name}}}", property.GetValue(request).ToString());
                                         }
 
-                                        //try
-                                        //{
-                                            client.DefaultRequestHeaders.Add("x-apikey", _requestContext.ApiKey);
-                        //}catch(Exception ex){
-                                            //var bob = ex;  
-                        //}
+                                        client.DefaultRequestHeaders.Add("x-apikey", _requestContext.ApiKey);
+
                                         var response = clientFunction(client, path).Result;
                                         if (!response.IsSuccessStatusCode)
                                         {
