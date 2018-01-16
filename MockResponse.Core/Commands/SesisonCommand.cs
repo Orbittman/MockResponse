@@ -21,7 +21,6 @@ namespace MockResponse.Core.Commands
         public void Execute(SaveSessionRecordRequest request)
         {
             _dbClient.InsertOne(new SessionRecord
-
             {
                 Account = request.AccountId,
                 SessionKey = request.SessionKey,
