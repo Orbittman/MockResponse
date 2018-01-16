@@ -17,10 +17,10 @@ namespace MockResponse.Web.ApiClient
         readonly AppConfig _configuration;
         readonly ISiteRequestContext _requestContext;
 
-        public Client(Microsoft.Extensions.Options.IOptions<AppConfig> configuration, ISiteRequestContext requestContext)
+        public Client(AppConfig configuration, ISiteRequestContext requestContext)
         {
             _requestContext = requestContext;
-            _configuration = configuration.Value;
+            _configuration = configuration;
         }
 
         public Task<TResponse> GetAsync<TRequest, TResponse>(TRequest request)

@@ -10,21 +10,7 @@ var error = require('./error');
 var manifest = require('../../package.json');
 var dependencies = Object.keys(manifest && manifest.appDependencies || {});
 
-
-/* -----------------------------------
- *
- * Flags
- *
- * -------------------------------- */
-
 var release = process.argv.includes('--release');
-
-
-/* -----------------------------------
- *
- * Vendor
- *
- * -------------------------------- */
 
 module.exports = function (config, gulp) {
 

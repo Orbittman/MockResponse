@@ -8,21 +8,7 @@ var sourcemaps = require('gulp-sourcemaps');
 var config = require('../config');
 var error = require('../error');
 
-
-/* -----------------------------------
- *
- * Release
- *
- * -------------------------------- */
-
 var release = process.argv.includes('--release');
-
-
-/* -----------------------------------
- *
- *  SCSS Compile
- *
- * -------------------------------- */
 
 module.exports = function (gulp, src, name, change) {
 

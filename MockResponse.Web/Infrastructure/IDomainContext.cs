@@ -1,4 +1,10 @@
-﻿public interface IDomainContext
+﻿using MockResponse.Web.Configuration;
+
+public interface IDomainContext
 {
-    string ClientStyles { get; set; }
+    string ClientStyles { get; }
+
+    string ClientJs { get; }
+
+    AppConfig Configuration { get; set; }
 }

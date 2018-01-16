@@ -12,21 +12,7 @@ var error = require('./error');
 var manifest = require('../../package.json');
 var dependencies = Object.keys(manifest && manifest.appDependencies || {});
 
-
-/* -----------------------------------
- *
- * Flags
- *
- * -------------------------------- */
-
 var release = process.argv.includes('--release');
-
-
-/* -----------------------------------
- *
- * Client
- *
- * -------------------------------- */
 
 module.exports = function (config, gulp) {
 
@@ -44,7 +30,7 @@ module.exports = function (config, gulp) {
             basedir: '.',
             debug: true,
             entries: [
-               config.path.src + 'app.ts'
+               config.path.scripts + config.src.client
             ],
             cache: {},
             packageCache: {}

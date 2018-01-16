@@ -1,11 +1,16 @@
-@using MockResponse.Web.Models;
 @model EditResponseViewModel;
+
+@using ServiceStack.Text;
+
+@using MockResponse.Web.Models;
+
 @{
     ViewData["Title"] = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h2>Edit</h2>
+### <div id="app"></div> ###
 @using (Html.BeginForm("PostResponse", "Admin", FormMethod.Post))
 {
 <div class="edit-area">
@@ -28,3 +33,7 @@
     @Html.HiddenFor(m => m.Response.Id)
     <input type="submit" name="SaveButton" value="Save" />
 }
+
+<script>
+    var headers = Model.Response.Headers.ToJson();
+</script>

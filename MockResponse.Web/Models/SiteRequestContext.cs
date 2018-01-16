@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http;
 using MockResponse.Core.Caching;
 using MockResponse.Core.Data;
 using MockResponse.Core.Data.Models;
-
+using MockResponse.Web.Configuration;
 using MongoDB.Driver;
 
 namespace MockResponse.Web.Models
@@ -20,12 +20,18 @@ namespace MockResponse.Web.Models
         UserSession _userSession;
         string _apiKey;
         readonly INoSqlClient _dbClient;
+        readonly IDomainContext _domainContext;
+        readonly IDateTimeProvider _dateTimeProvider;
 
         public SiteRequestContext(
             ICacheClient cacheClient, 
             IHttpContextAccessor httpContextAccessor,
-            INoSqlClient dbClient)
+            INoSqlClient dbClient,
+            IDomainContext domainContext,
+            IDateTimeProvider dateTimeProvider)
         {
+            _dateTimeProvider = dateTimeProvider;
+            _domainContext = domainContext;
             _dbClient = dbClient;
             _cacheClient = cacheClient;
             _httpContextAccessor = httpContextAccessor;
@@ -33,16 +39,21 @@ namespace MockResponse.Web.Models
 
         public UserSession Session => _userSession ?? (_userSession = LoadSession());
 
-        public void SaveUserSession(UserSession session)
+        public HttpContext HttpContext => _httpContextAccessor.HttpContext;
+
+        public (string, TimeSpan) SaveUserSession(UserSession session)
         {
             var sessionKey = _httpContextAccessor.HttpContext.Request.Cookies[_cacheKey];
+            var sessionDuration = TimeSpan.FromDays(_domainContext.Configuration.SessionDuration);
             if (string.IsNullOrEmpty(sessionKey))
             {
                 sessionKey = Guid.NewGuid().ToString();
                 _httpContextAccessor.HttpContext.Response.Cookies.Append(_cacheKey, sessionKey);
             }
 
-            _cacheClient.Set(sessionKey, session);
+            _cacheClient.Set(sessionKey, session, sessionDuration);
+
+            return (sessionKey, sessionDuration);
         }
 
         public bool Authenticated => Session.Authenticated;

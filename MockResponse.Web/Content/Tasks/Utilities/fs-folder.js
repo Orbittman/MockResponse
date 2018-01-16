@@ -1,14 +1,6 @@
-﻿
-var fs = require('fs');
+﻿var fs = require('fs');
 var path = require('path');
 var config = require('../config');
-
-
-/* -----------------------------------
- *
- *  FS Folder
- *
- * -------------------------------- */
 
 module.exports = function(dir) {
 

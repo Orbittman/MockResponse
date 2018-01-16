@@ -25,7 +25,8 @@ namespace MockResponse.Web.Controllers
                 Authenticated = RequestContext.Authenticated, 
                 RequestContext = RequestContext,
                 Url = Url,
-                ClientStyles = DomainContext.ClientStyles
+                ClientStyles = DomainContext.ClientStyles,
+                ClientJs = DomainContext.ClientJs
             };
 
             constructionPredicate?.Invoke(model);

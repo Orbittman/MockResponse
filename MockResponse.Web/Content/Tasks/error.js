@@ -9,13 +9,5 @@ module.exports = function(err) {
 
    util.log(name);
    util.log(output);
-
-   /*
-   return notify.onError({
-      title: 'Gulp',
-      message: 'Error: <%= message %>',
-      sound: 'Bottle'
-   });
-   */
    
 }

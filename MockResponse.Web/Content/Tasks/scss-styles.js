@@ -1,26 +1,11 @@
-﻿var browserify = require('browserify');
-var hash = require('gulp-hash');
-var util = require('gulp-util');
-var del = require('del');
-var path = require('path');
-var error = require('./error');
-var getFolders = require('./utilities/fs-folder');
+﻿var del = require('del');
 var compile = require('./utilities/scss-compile');
-var merge = require('merge-stream');
-var rename = require('gulp-rename');
-
-
-/* -----------------------------------
- *
- * Style
- *
- * -------------------------------- */
 
 module.exports = function (config, gulp) {
 
    return function () {
 
-      var src = config.styles.path + config.styles.file;
+      var src = config.path.styles + config.src.styles;
 
       return del([
          config.path.dist + 'style*.css*'

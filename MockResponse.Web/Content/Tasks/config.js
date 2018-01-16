@@ -1,11 +1,12 @@
 ﻿module.exports = {
-styles: {
-        path: './Content/Styles/',
-        file: 'styles.scss'
+src: {
+        styles: 'styles.scss',
+        client: 'app.ts'
     },
 path: {
+        styles: './Content/Src/Styles/',
         dist: './wwwroot/Dist/',
-        src: './Content/src/'
+        scripts: './Content/src/Scripts/'
     },
 asset: {
         manifest: 'assets.json',

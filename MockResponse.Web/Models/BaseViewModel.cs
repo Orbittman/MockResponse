@@ -11,5 +11,7 @@ namespace MockResponse.Web.Models
         public IUrlHelper Url { get; set; }
 
         public string ClientStyles { get; internal set; }
+
+        public string ClientJs { get; internal set; }
     }
 }

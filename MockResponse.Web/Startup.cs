@@ -17,6 +17,7 @@ using MockResponse.Core.Utilities;
 using MockResponse.Web.ApiClient;
 using MockResponse.Web.Bootstrap;
 using MockResponse.Web.Configuration;
+using MockResponse.Web.Extensions;
 using MockResponse.Web.Infrastructure;
 using MockResponse.Web.Models;
 
@@ -48,8 +49,13 @@ namespace MockResponse.Web
             services.AddMvc(options => { options.RespectBrowserAcceptHeader = true; });
             services.AddAutoMapper();
             services.AddRouting();
+            
+            // Configuration
+            var configuration = services.ConfigurePOCO<AppConfig>(_config);
+            configuration.Styles = _config["styles.css"];
+            configuration.ClientJs = _config["client.js"];
 
-            ConfigureDI.Configure(services, _config);
+            ConfigureDI.Configure(services, configuration);
 
             services.AddMailKit(optionBuilder =>
                                 {
@@ -65,8 +71,6 @@ namespace MockResponse.Web
                                     });
                                 });
 
-            // Configuration
-            services.Configure<AppConfig>(_config);
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)

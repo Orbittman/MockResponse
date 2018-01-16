@@ -1,0 +1,19 @@
+﻿{
+  "compilerOptions": {
+    "baseUrl": "./src",
+    "outDir": "./dist",
+    "noImplicitAny": true,
+    "noEmitOnError": true,
+    "noFallthroughCasesInSwitch": true,
+    "target": "es5",
+    "sourceMap": true,
+    "inlineSourceMap": false,
+    "inlineSources": false,
+    "experimentalDecorators": true,
+    "lib": [
+      "dom",
+      "es5",
+      "es6"
+    ]
+  }
+}
