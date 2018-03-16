@@ -12,7 +12,5 @@ install:
   - if [ "$TRAVIS_BRANCH" == "master" ]; then
     docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD";
     docker build -t $DOCKER_USERNAME/mockresponse.api ./MockResponse.Api;
-    docker build -t $DOCKER_USERNAME/mockresponse.web ./MockResponse.Web;
     docker push $DOCKER_USERNAME/mockresponse.api;
-    docker push $DOCKER_USERNAME/mockresponse.web;
     fi
