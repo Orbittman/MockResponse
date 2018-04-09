@@ -8,7 +8,7 @@ var server = require('browser-sync').create();
 var config = require('./Content/tasks/config');
 
 /* Task setup */
-function task(task, attr = null) {
+function task(task, attr) {
     return require('./Content/tasks/' + task)(config, gulp, attr);
 }
 
