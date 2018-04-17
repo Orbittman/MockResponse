@@ -11,7 +11,7 @@ namespace MockResponse.Api
 		{
 			var config = new ConfigurationBuilder()
 				.SetBasePath(Directory.GetCurrentDirectory())
-				.AddJsonFile("hosting.json", optional: false)
+				//.AddJsonFile("hosting.json", optional: false)
 				.AddCommandLine(args)
 			    .AddUserSecrets("MockResponse-b4141464-f1e7-4271-926f-31de0bc5be7e")
                 .Build();
