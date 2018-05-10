@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -13,7 +14,7 @@ namespace MockResponse.Api
 				.SetBasePath(Directory.GetCurrentDirectory())
 				//.AddJsonFile("hosting.json", optional: false)
 				.AddCommandLine(args)
-			    .AddUserSecrets("MockResponse-b4141464-f1e7-4271-926f-31de0bc5be7e")
+			    //.AddUserSecrets("MockResponse-b4141464-f1e7-4271-926f-31de0bc5be7e")
                 .Build();
 
 			var host = new WebHostBuilder()

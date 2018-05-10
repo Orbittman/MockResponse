@@ -26,5 +26,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Commands\ISessionCommand.cs" />
+    <Compile Remove="Logging\IFileProvider.cs" />
+    <Compile Remove="Logging\IFileProvider.cs" />
   </ItemGroup>
 </Project>
