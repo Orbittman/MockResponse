@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Text;
 
@@ -118,5 +119,10 @@ namespace MockResponse.Api.Controllers
 
             HttpContext.Response.Body.WriteAsync(Encoding.UTF8.GetBytes(content), 0, content.Length);
         }
+
+        [HttpGet("exception")]
+		public void Exception(){
+			throw new Exception("Thrown exception");
+		}
     }
 }
