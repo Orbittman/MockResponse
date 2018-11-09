@@ -17,7 +17,7 @@
     "MockResponse.Api": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "http://localhost:1234",
+      "launchUrl": "http://localhost:5000",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

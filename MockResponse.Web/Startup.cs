@@ -30,45 +30,43 @@ namespace MockResponse.Web
 {
     public class Startup
     {
-        readonly IConfigurationRoot _config;
+        readonly IConfiguration _config;
 
-        public Startup(IHostingEnvironment env)
+        public Startup(IHostingEnvironment env, IConfiguration configuration)
 		{
-			// Set up configuration sources.
-			var builder = new ConfigurationBuilder()
-				.SetBasePath(env.ContentRootPath)
-				.AddJsonFile("appsettings.json", true, true)
-                .AddJsonFile("wwwroot/Dist/assets.json")
-		        .AddUserSecrets<Startup>();
-
-            _config = builder.Build();
-		}
+            _config = configuration;
+        }
 
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc(options => { options.RespectBrowserAcceptHeader = true; });
             services.AddAutoMapper();
             services.AddRouting();
-            
+
             // Configuration
-            var configuration = services.ConfigurePOCO<AppConfig>(_config);
+            var configuration = new AppConfig();
+            _config.Bind(configuration);
             configuration.Styles = _config["styles.css"];
             configuration.ClientJs = _config["client.js"];
 
             ConfigureDI.Configure(services, configuration);
 
+            var mailKitOptions = new MailKitOptions();
+            _config.GetSection("EmailSettings").Bind(mailKitOptions);
+
             services.AddMailKit(optionBuilder =>
                                 {
-                                    optionBuilder.UseMailKit(new MailKitOptions
-                                    {
-                                        // get options from sercets.json
-                                        Server = _config["SmtpServer"],
-                                        Port = Convert.ToInt32(_config["SmtpPort"]),
-                                        SenderName = _config["SmtpSenderName"],
-                                        SenderEmail = _config["SmtpSenderEmail"],
-                                        Account = _config["SmtpAccount"],
-                                        Password = _config["SmtpPassword"]
-                                    });
+                                    optionBuilder.UseMailKit(mailKitOptions);
+                                    //optionBuilder.UseMailKit(new MailKitOptions
+                                    //{
+                                    //    // get options from sercets.json
+                                    //    Server = _config["SmtpServer"],
+                                    //    Port = Convert.ToInt32(_config["SmtpPort"]),
+                                    //    SenderName = _config["SmtpSenderName"],
+                                    //    SenderEmail = _config["SmtpSenderEmail"],
+                                    //    Account = _config["SmtpAccount"],
+                                    //    Password = _config["SmtpPassword"]
+                                    //});
                                 });
 
         }

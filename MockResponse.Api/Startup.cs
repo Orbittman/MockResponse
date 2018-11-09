@@ -28,7 +28,7 @@ namespace MockResponse.Api
             // Set up configuration sources.
             var builder = new ConfigurationBuilder()
                 //.SetBasePath(env.ContentRootPath)
-                //.AddJsonFile("appsettings.json", true, true)
+                .AddJsonFile("appsettings.json", false, true)
                 .AddUserSecrets<Startup>();
 
             _config = builder.Build();
@@ -53,7 +53,7 @@ namespace MockResponse.Api
             services.AddScoped<ThrottlingFilter>();
             services.Add(new ServiceDescriptor(typeof(IThrottler), typeof(Throttler), ServiceLifetime.Singleton));
 
-            services.AddSingleton<INoSqlClient>(client => new MongoDbClient($"mongodb://{_config["MongoUsername"]}:{_config["MongoPassword"]}@cluster0-shard-00-00-zlhjf.mongodb.net:27017,cluster0-shard-00-01-zlhjf.mongodb.net:27017,cluster0-shard-00-02-zlhjf.mongodb.net:27017/IDL_Monitor?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin"));
+            services.AddSingleton<INoSqlClient>(client => new MongoDbClient(string.Format(_config["MongoConnectionString"], _config["MongoUserName"], _config["MongoPassword"])));
 
 			services.AddScoped<AuthorisationFilterAttribute>();
         }

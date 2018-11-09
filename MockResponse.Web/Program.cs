@@ -12,6 +12,7 @@ namespace MockResponse.Web
             var config = new ConfigurationBuilder()
 				.SetBasePath(Directory.GetCurrentDirectory())
 				.AddJsonFile("hosting.json", optional: false)
+                .AddJsonFile("appsettings.json", true, true)
                 .AddCommandLine(args)
                 .AddUserSecrets("ff87c53e-5501-43b5-8af1-301e358e4890")
                 .Build();

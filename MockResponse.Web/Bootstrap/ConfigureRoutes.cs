@@ -1,7 +1,4 @@
-using System;
 using Microsoft.AspNetCore.Routing;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using MockResponse.Web.Controllers;
 using MockResponse.Web.Extensions;
 

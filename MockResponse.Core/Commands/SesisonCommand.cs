@@ -5,12 +5,12 @@ using MockResponse.Core.Utilities;
 
 namespace MockResponse.Core.Commands
 {
-    public class SesisonCommand : ISessionCommand
+    public class SessionCommand : ISessionCommand
     {
         readonly INoSqlClient _dbClient;
         readonly IDateTimeProvider _dateTimeProvider;
 
-        public SesisonCommand(
+        public SessionCommand(
             INoSqlClient dbClient,
             IDateTimeProvider dateTimeProvider)
         {

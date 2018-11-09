@@ -1,9 +1,8 @@
-﻿using System;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using MockResponse.Core.Caching;
+using MockResponse.Core.Commands;
 using MockResponse.Core.Data;
 using MockResponse.Core.Utilities;
 using MockResponse.Web.ApiClient;
@@ -18,8 +17,9 @@ namespace MockResponse.Web.Bootstrap
     {
         public static void Configure(IServiceCollection services, AppConfig config)
         {
-            services.AddSingleton<INoSqlClient>(client => new MongoDbClient($"mongodb://{config.MongoUsername}:{config.MongoPassword}@cluster0-shard-00-00-zlhjf.mongodb.net:27017,cluster0-shard-00-01-zlhjf.mongodb.net:27017,cluster0-shard-00-02-zlhjf.mongodb.net:27017/IDL_Monitor?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin"));
-            services.AddTransient(c => new RedisManagerPool("localhost:6379").GetClient());
+            //services.AddSingleton<INoSqlClient>(client => new MongoDbClient($"mongodb://{config.MongoUserName}:{config.MongoPassword}@cluster0-shard-00-00-zlhjf.mongodb.net:27017,cluster0-shard-00-01-zlhjf.mongodb.net:27017,cluster0-shard-00-02-zlhjf.mongodb.net:27017/IDL_Monitor?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin"));
+            services.AddSingleton<INoSqlClient>(client => new MongoDbClient(string.Format(config.MongoConnectionString, config.MongoUserName, config.MongoPassword)));
+            services.AddTransient(c => new RedisManagerPool("nas:6379").GetClient());
             services.AddSingleton<ICacheClient, RedisCacheClient>();
             services.AddSingleton<IRestClient, Client>();
             services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
@@ -32,6 +32,8 @@ namespace MockResponse.Web.Bootstrap
             services.AddTransient<IEmailClient, EmailClient>();
             services.AddTransient<IDateTimeProvider, DateTimeProvider>();
             services.AddTransient<ISiteRequestContext, SiteRequestContext>();
+            services.AddTransient<ISessionCommand, SessionCommand>();
+            services.AddTransient<IAccountCommand, AccountCommand>();
         }
     }
 }

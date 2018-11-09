@@ -14,13 +14,13 @@ namespace MockResponse.Web.ApiClient
 {
     public class Client : IRestClient
     {
-        readonly AppConfig _configuration;
+        readonly IDomainContext _domainContext;
         readonly ISiteRequestContext _requestContext;
 
-        public Client(AppConfig configuration, ISiteRequestContext requestContext)
+        public Client(IDomainContext domainContext, ISiteRequestContext requestContext)
         {
             _requestContext = requestContext;
-            _configuration = configuration;
+            _domainContext = domainContext;
         }
 
         public Task<TResponse> GetAsync<TRequest, TResponse>(TRequest request)
@@ -46,7 +46,7 @@ namespace MockResponse.Web.ApiClient
                             {
                                 using (var handler = new HttpClientHandler())
                                 {
-                                    using (var client = new HttpClient(handler) { BaseAddress = new Uri(_configuration.ApiAddress) })
+                                    using (var client = new HttpClient(handler) { BaseAddress = new Uri(_domainContext.Configuration.ApiAddress) })
                                     {
                                         var path = request.Path;
                                         var properties = request.GetType().GetProperties();
